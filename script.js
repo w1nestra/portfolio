@@ -254,8 +254,34 @@
   var artLightboxPrev = document.querySelector(".art-lightbox-prev");
   var artLightboxNext = document.querySelector(".art-lightbox-next");
   var artItems = document.querySelectorAll(".art-masonry-item, .brave-item");
+  var homeGraphicsItems = document.querySelectorAll(".home-graphics-item");
   var currentGroupItems = [];
   var currentArtIndex = -1;
+  var isHomeGalleryMode = false;
+
+  function getHomeGalleryForItem(item) {
+    var title = item.getAttribute("data-title") || "";
+    if (title === "Team Building Tarpaulin") {
+      return [
+        "images/Integr8%20Graphic%20Design/Team%20Building%202026%20-%201.jpg",
+        "images/Integr8%20Graphic%20Design/Team%20Building%202026%20-%202.jpg",
+        "images/Integr8%20Graphic%20Design/Team%20Building%202026%20-%203.jpg"
+      ];
+    }
+    if (title === "Valentine's Day Vouchers") {
+      return [
+        "images/Integr8%20Graphic%20Design/Valentines'%20Day%20Jollibee%20Voucher.jpg",
+        "images/Integr8%20Graphic%20Design/Valentines'%20Day%20Movie%20Voucher.jpg"
+      ];
+    }
+    if (title === "Gr8 ERP Software") {
+      return [
+        "images/Integr8%20Graphic%20Design/Gr8%20ERP%20for%20Cooperative2.jpg",
+        "images/Integr8%20Graphic%20Design/Gr8%20ERP%20Software.jpg"
+      ];
+    }
+    return null;
+  }
 
   function getCurrentGroupForItem(item) {
     var group = item.closest ? item.closest(".art-group") : null;
@@ -282,6 +308,14 @@
   }
 
   function renderArtAt(index) {
+    if (isHomeGalleryMode) {
+      var src = currentGroupItems[index];
+      if (!src || !artLightboxImg) return;
+      currentArtIndex = index;
+      artLightboxImg.src = src;
+      artLightboxImg.alt = "";
+      return;
+    }
     var data = getArtData(index);
     if (!data || !artLightboxImg) return;
     currentArtIndex = index;
@@ -298,6 +332,11 @@
       currentGroupItems = getCurrentGroupForItem(triggerItem);
     } else {
       currentGroupItems = artItems;
+    }
+    isHomeGalleryMode = false;
+    if (artLightbox) {
+      var details = artLightbox.querySelector(".art-lightbox-details");
+      if (details) details.style.display = "";
     }
     // find index within current group
     var imgSrc = src;
@@ -318,6 +357,23 @@
     document.body.style.overflow = "hidden";
   }
 
+  function openHomeGalleryLightbox(triggerItem) {
+    if (!artLightbox || !artLightboxImg || !triggerItem) return;
+    var gallery = getHomeGalleryForItem(triggerItem);
+    if (!gallery || !gallery.length) return;
+    isHomeGalleryMode = true;
+    currentGroupItems = gallery;
+    currentArtIndex = 0;
+    artLightboxImg.src = gallery[0];
+    artLightboxImg.alt = triggerItem.getAttribute("data-title") || "";
+    // hide captions for Home gallery
+    var details = artLightbox.querySelector(".art-lightbox-details");
+    if (details) details.style.display = "none";
+    artLightbox.classList.add("open");
+    artLightbox.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
   function closeArtLightbox() {
     if (!artLightbox || !artLightboxImg) return;
     artLightbox.classList.remove("open");
@@ -326,6 +382,9 @@
     document.body.style.overflow = "";
     currentArtIndex = -1;
     currentGroupItems = [];
+    isHomeGalleryMode = false;
+    var details = artLightbox.querySelector(".art-lightbox-details");
+    if (details) details.style.display = "";
   }
 
   function showPrevArt(e) {
@@ -348,6 +407,11 @@
     // ignore nav/close clicks
     if (e.target.closest && e.target.closest(".art-lightbox-nav")) return;
     var target = e.target;
+    var homeItem = target.closest ? target.closest(".home-graphics-item") : null;
+    if (homeItem) {
+      openHomeGalleryLightbox(homeItem);
+      return;
+    }
     var item = target.closest ? target.closest(".art-masonry-item, .brave-item") : null;
     if (item) {
       var img = item.querySelector("img");
