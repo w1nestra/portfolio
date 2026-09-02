@@ -11,19 +11,26 @@
 </head>
 <body>
 
-  <header class="site-header">
+    <header class="site-header">
     <nav class="nav">
-      <a href="#home" class="nav-logo" data-nav="home">Juan Rafael Luis</a>
+      <span class="nav-logo">Juan Rafael Luis</span>
       <ul class="nav-links">
-
+        <li><a href="#home" data-nav="home" class="nav-link">Home</a></li>
+        <li><a href="#art" data-nav="art" class="nav-link">Art</a></li>
         <li><a href="#about" data-nav="about" class="nav-link">About</a></li>
         <li><a href="#contact" data-nav="contact" class="nav-link">Contact</a></li>
       </ul>
-      <span class="nav-badge">
-        <span class="badge-dot"></span>
-        Available for Work
-      </span>
-      <button class="nav-toggle" aria-label="Menu">☰</button>
+      <div class="nav-actions">
+        <span class="nav-badge">
+          <span class="badge-dot"></span>
+          Available for Work
+        </span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+          <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+      <button class="nav-toggle" aria-label="Menu">?</button>
     </nav>
   </header>
 
@@ -129,6 +136,8 @@
         </div>
       </section>
 
+      <div class="container"><hr class="section-divider"></div>
+
       <section class="section contact-cta-section">
         <div class="container cta-container">
           <h2 class="cta-heading">Let's build something meaningful.</h2>
@@ -143,67 +152,93 @@
 
     <!-- ==================== ABOUT PAGE ==================== -->
     <section id="page-about" class="page">
+      <div class="container page-header">
+        <h1 class="page-title">Beyond the Screen</h1>
+      </div>
       <div class="container about-intro">
         <p class="about-hero-text">
-          I've worked with Integr8 and ePeople to build digital presences that communicate clearly and convert. I'm looking for a team where I can keep growing and do work that matters.
+          I've worked with Integr8 and ePeople to build digital presences that communicate clearly and convert. I'm now actively looking for an opportunity where I can keep growing and do work that matters.
         </p>
       </div>
 
-      <div class="container about-image-row">
-        <div class="about-image-col"><img src="images/Integr8%20Commemorative%20Photo%202.jpg" alt="Integr8 Commemorative Photo"></div>
-        <div class="about-image-col"><img src="images/SAN%20PEDRO%2C%20JUAN%20RAFAEL%20LUIS%2C%20SFFB%20FEUC_1392.jpg" alt="SAN PEDRO, JUAN RAFAEL LUIS"></div>
+      <div class="container about-drag" id="about-drag">
+        <div class="about-drag-viewport">
+          <div class="about-drag-track">
+            <div class="about-drag-item"><span class="about-drag-year">2026</span><img src="images/2026/FEUC_13078.JPG" alt="FEUC 13078" draggable="false"><span class="about-drag-caption">FEU Cavite Graduation — Class of 2026</span></div>
+            <div class="about-drag-item"><span class="about-drag-year">2026</span><img src="images/2026/Integr8%20Commemorative%20Photo%202.jpg" alt="Integr8 Commemorative Photo" draggable="false"><span class="about-drag-caption">Integr8 Commemorative Photo — General Trias, 2026</span></div>
+            <div class="about-drag-item"><span class="about-drag-year">2026</span><img src="images/2026/legendaryOJT2.jpg" alt="Legendary OJT" draggable="false"><span class="about-drag-caption">Me & my co-interns at Integr8 Software Solutions — 2026</span></div>
+            <div class="about-drag-item"><span class="about-drag-year">2026</span><img src="images/2026/Integr8%20UIUX%20designer.jpg" alt="Integr8 UI/UX Designer" draggable="false"><span class="about-drag-caption">Designing Integr8's Marketing Website —2026</span></div>
+            <div class="about-drag-item"><span class="about-drag-year">2025</span><img src="images/2025/ThesisDefended5.jpg" alt="Thesis Defended 5" draggable="false"><span class="about-drag-caption">Capstone Research Project Defended — Library 360, 2025</span></div>
+            <div class="about-drag-item"><span class="about-drag-year">2025</span><img src="images/2025/ThesisDefended9.jpg" alt="Thesis Defended 9" draggable="false"><span class="about-drag-caption">Capstone Project Showcase — FEU Cavite, 2025</span></div>
+            <div class="about-drag-item"><span class="about-drag-year">2025</span><img src="images/2025/LSEG2.jpeg" alt="LSEG 2023" draggable="false"><span class="about-drag-caption">LSEG Roadshow — 2025</span></div>
+            <div class="about-drag-item"><span class="about-drag-year">2023</span><img src="images/2023/metrogate2023(2).jpg" alt="Metrogate 2023" draggable="false"><span class="about-drag-caption">Metrogate Silang — 2023</span></div>
+          </div>
+        </div>
       </div>
 
       <div class="container about-section">
         <div class="section-header-row">
           <h2 class="section-title">Resume</h2>
-          <a href="Juan%20Rafael%20Luis%20San%20Pedro_UIUXDesigner_Resume.pdf" class="btn resume-download" download>Download Resume (PDF)</a>
+          <a href="CV%20-%20Juan%20Rafael%20Luis%20San%20Pedro.pdf" class="btn resume-download" download>Download Resume (PDF)</a>
         </div>
+      </div>
+
+      <div class="container about-section">
+        <h2 class="section-title">Professional Summary</h2>
+        <p class="about-section-text">Information Technology graduate with hands-on experience designing production-ready marketing websites in Figma and conducting manual QA testing on business software. Skilled in visual design and QA testing, with a background spanning both building interfaces and testing them for real-world use.</p>
       </div>
 
       <div class="container about-section">
         <h2 class="section-title">Education</h2>
-
         <div class="resume-entry">
           <div class="resume-entry-header">
             <h3 class="resume-entry-title">Bachelor of Science in Information Technology</h3>
-            <span class="resume-entry-date">2022 – 2026</span>
+            <span class="resume-entry-date">2022 - 2026</span>
           </div>
-          <p class="resume-entry-sub">Far Eastern University Cavite, MetroGate Silang Estates, Silang, Cavite</p>
+          <p class="resume-entry-sub">Far Eastern University - Cavite, Silang, Cavite</p>
           <ul class="resume-entry-details">
-            <li>Designed UI layouts for a library management system using Adobe Photoshop, applying core UI principles and a user-centered approach to improve usability and visual structure</li>
-            <li>Managed and organized technical documentation using Jira for a capstone research project under Agile methodology</li>
-            <li>Created animation and visual assets for an academic game development project using Adobe Photoshop</li>
-            <li><strong>Awards:</strong> Magna Cum Laude, Best Capstone Project Award 2025 — "Library 360: A Web-based Library Management System with Analytics and Recommendation for FEU Cavite Libraries"</li>
-          </ul>
-        </div>
-
-        <div class="resume-entry">
-          <div class="resume-entry-header">
-            <h3 class="resume-entry-title">Science, Technology, Engineering, and Mathematics – Senior High School</h3>
-            <span class="resume-entry-date">2020 – 2022</span>
-          </div>
-          <p class="resume-entry-sub">Far Eastern University Cavite, MetroGate Silang Estates, Silang, Cavite</p>
-          <ul class="resume-entry-details">
-            <li>Graduated With Honors</li>
+            <li><strong>Magna Cum Laude</strong></li>
+            <li><strong>Best Capstone Project Award 2025 — “Library 360: A Web-based Library Management System with Analytics and Recommendation for FEU Cavite Libraries”</strong></li>
           </ul>
         </div>
       </div>
 
       <div class="container about-section">
-        <h2 class="section-title">Experience</h2>
-
+        <h2 class="section-title">Work Experience</h2>
         <div class="resume-entry">
           <div class="resume-entry-header">
-            <h3 class="resume-entry-title">UI/UX Designer Intern</h3>
-            <span class="resume-entry-date">Feb – May 2026</span>
+            <h3 class="resume-entry-title">UI/UX Designer &amp; Software QA Tester Intern</h3>
+            <span class="resume-entry-date">Feb - May 2026</span>
           </div>
           <p class="resume-entry-sub">Integr8 Software Solutions, Inc., General Trias City, Cavite</p>
           <ul class="resume-entry-details">
-            <li>Led the UI/UX design of the company's digital marketing website using Figma, delivering the site the company now uses as its primary digital storefront</li>
-            <li>Redesigned 7 webpages for a sister company's marketing website using WordPress Elementor, expanding the sister company's online presence</li>
-            <li>Produced 5+ on-brand graphics in Canva for the company's Facebook marketing, supporting internal content and social media output</li>
-            <li>Conducted manual functional and usability testing of the company's accounting and payroll software; identified and documented 40+ usability issues and improvements in MS Excel, giving the dev team a prioritized list of fixes ahead of rollout</li>
+            <li>Designed and led the UI/UX development of the company's digital marketing website in Figma, communicating design decisions closely with developers throughout implementation</li>
+            <li>Redesigned 7 webpages for a sister company's marketing website using WordPress Elementor, modernizing the sister company's online presence</li>
+            <li>Designed 10+ branded visual assets in Canva to support the company's marketing campaigns, events, and internal initiatives</li>
+            <li>Conducted manual functional and usability testing for accounting and payroll software, documenting 40+ issues and improvement recommendations in Microsoft Excel prior to rollout</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="container about-section">
+        <h2 class="section-title">Projects</h2>
+        <div class="resume-entry">
+          <div class="resume-entry-header">
+            <h3 class="resume-entry-title"><a href="https://github.com/Lucky8Ace/Library360Final" target="_blank" rel="noopener noreferrer" class="resume-title-link">Library 360 (Capstone Research Project – Library Management System)</a></h3>
+          </div>
+          <ul class="resume-entry-details">
+            <li>Conducted the review of related literature to establish the project's research foundation and design/technical direction</li>
+            <li>Designed user interface for a library management system using Adobe Photoshop, applying user-centered design principles</li>
+            <li>Managed and organized technical documentation using Jira for a capstone research project under Agile methodology</li>
+            <li>Conducted functionality and usability testing for the software to identify and resolve issues prior to deployment</li>
+          </ul>
+        </div>
+        <div class="resume-entry">
+          <div class="resume-entry-header">
+            <h3 class="resume-entry-title"><a href="#brave-refuge" class="resume-title-link" data-brave-refuge>Brave Refuge (Game Development Project)</a></h3>
+          </div>
+          <ul class="resume-entry-details">
+            <li>Created hand-drawn 2D animation and visual assets for an academic game development project using Adobe Photoshop</li>
           </ul>
         </div>
       </div>
@@ -212,36 +247,38 @@
         <h2 class="section-title">Skills</h2>
         <div class="skills-grid">
           <ul class="skill-list">
-            <li>Wireframing and Prototyping</li>
-            <li>User Interface Design</li>
-            <li>User Experience Design</li>
-            <li>Interaction Design</li>
-            <li>Responsive Design</li>
+            <li>UI/UX Design</li>
+            <li>Responsive Web Design</li>
+            <li>Wireframing &amp; Interactive Prototyping</li>
+            <li>Typography &amp; Layout</li>
           </ul>
           <ul class="skill-list">
-            <li>Web Design</li>
-            <li>Landing Page Design</li>
-            <li>Social Media Design</li>
-            <li>Graphic Design</li>
-          </ul>
-          <ul class="skill-list">
-            <li>Brochures &amp; Infographics</li>
-            <li>Presentation Design</li>
-            <li>Typography</li>
-            <li>Illustration</li>
-            <li>Digital &amp; Print</li>
+            <li>Social Media Graphics Design</li>
+            <li>Functional &amp; Usability Testing</li>
+            <li>Issue Documentation &amp; Tracking</li>
+            <li>Agile Methodology</li>
           </ul>
         </div>
       </div>
 
+      <div class="container"><hr class="section-divider"></div>
+
       <div class="container about-section">
-        <h2 class="section-title">Training &amp; Certifications</h2>
-        <p class="about-section-text">Industry-recognized certifications that strengthen my foundation in IT, design, and animation.</p>
+        <h2 class="section-title">Certifications</h2>
         <ul class="cert-list">
           <li>CompTIA ITF+ Certified (2023)</li>
           <li>TESDA NC III Visual Graphic Design (2023)</li>
           <li>TESDA Certificate of Competency in 2D Animation (2025)</li>
           <li>TESDA Certificate of Competency in Computer Systems Servicing (2026)</li>
+        </ul>
+      </div>
+
+      <div class="container about-section">
+        <h2 class="section-title">Training / Seminars</h2>
+        <ul class="cert-list">
+          <li>Smartbooks And Power BI Operations Management with Analytics (2024) by FitAcademy</li>
+          <li>Data Speaks, Careers Listen (November 2025) by iSITE</li>
+          <li>The No-Code Creative: Figma for Talents and Local Businesses Workshop (March 2026) by DICT Region IV-A</li>
         </ul>
       </div>
 
@@ -262,7 +299,7 @@
           </div>
           <div class="tool-item">
             <div class="tool-logo"><img src="images/tools/wordpress.svg" alt="WordPress"></div>
-            <span class="tool-name">WordPress</span>
+            <span class="tool-name">WordPress Elementor</span>
           </div>
           <div class="tool-item">
             <div class="tool-logo"><img src="images/tools/jira.svg" alt="Jira"></div>
@@ -270,15 +307,15 @@
           </div>
           <div class="tool-item">
             <div class="tool-logo"><img src="images/tools/html5.svg" alt="HTML5"></div>
-            <span class="tool-name">HTML</span>
+            <span class="tool-name">HTML / CSS</span>
           </div>
           <div class="tool-item">
-            <div class="tool-logo"><img src="images/tools/css.png" alt="CSS"></div>
-            <span class="tool-name">CSS</span>
+            <div class="tool-logo"><img src="images/tools/msOffice.png" alt="Microsoft Office"></div>
+            <span class="tool-name">Microsoft Office</span>
           </div>
           <div class="tool-item">
-            <div class="tool-logo"><img src="images/tools/javascript.png" alt="JavaScript"></div>
-            <span class="tool-name">JavaScript</span>
+            <div class="tool-logo"><img src="images/tools/google.png" alt="Google Workspace"></div>
+            <span class="tool-name">Google Workspace</span>
           </div>
           <div class="tool-item">
             <div class="tool-logo"><img src="images/tools/claude.png" alt="Claude"></div>
@@ -291,6 +328,8 @@
         </div>
       </div>
 
+      <div class="container"><hr class="section-divider"></div>
+
       <section class="section contact-cta-section">
         <div class="container cta-container">
           <h2 class="cta-heading">Let's get to know each other.</h2>
@@ -298,6 +337,115 @@
           <a href="#contact" class="btn" data-nav="contact">Get in touch</a>
         </div>
       </section>
+
+      <footer class="page-footer">
+        <div class="container">
+          <p class="footer-text">Thank you for taking the time to learn more about my story <span class="footer-emoji" aria-hidden="true">:)</span></p>
+        </div>
+      </footer>
+    </section>
+
+    <!-- ==================== ART PAGE ==================== -->
+    <section id="page-art" class="page">
+      <div class="container page-header">
+        <h1 class="page-title">Art Gallery</h1>
+        <p class="page-subtitle">A collection of fan arts and Inktober experiments — characters that stuck with me, rendered in glow and ink.</p>
+        <p class="art-hint">These glow arts hit way harder in the dark <button class="art-hint-toggle" id="art-hint-toggle" type="button" aria-label="Toggle dark mode"><span class="art-hint-icon" aria-hidden="true"><svg class="art-hint-icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg><svg class="art-hint-icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span></button></p>
+      </div>
+
+      <div class="container art-group">
+        <div class="art-group-header">
+          <h2 class="section-title">Digital / Glow Art</h2>
+          <span class="art-count">21 pieces</span>
+        </div>
+        <div class="art-masonry">
+          <div class="art-masonry-item" data-title="Wonder Of U - Jojolion" data-meta="2026 | Ballpoint pen + ibisPaint X | Typography" data-story="Typography experiment"><img src="my%20art/WOU.png" alt="Wonder Of U Jojolion" loading="lazy"><div class="art-overlay"><h4>Wonder Of U - Jojolion</h4><p>2026 | Ballpoint pen + ibisPaint X | Typography</p></div></div>
+          <div class="art-masonry-item" data-title="Isagi Yoichi - Blue Lock" data-meta="2026 | Figma" data-story="Exploring Figma's features to create art"><img src="my%20art/IsagiYoichi.png" alt="Isagi Yoichi Blue Lock" loading="lazy"><div class="art-overlay"><h4>Isagi Yoichi - Blue Lock</h4><p>2026 | Figma</p></div></div>
+          <div class="art-masonry-item" data-title="Chibi me" data-meta="2026 | Figma" data-story="A quick chibi self-portrait inspired by the character icons from Subway Surfers City"><img src="my%20art/Chibi.png" alt="Chibi me" loading="lazy"><div class="art-overlay"><h4>Chibi me</h4><p>2026 | Figma</p></div></div>
+          <div class="art-masonry-item" data-title="Kaoruko Waguri - The Fragrant Flower Blooms with Dignity" data-meta="2025 | Ballpoint pen + ibisPaint X | Glow" data-story="Female characters are intimidating — they have to be beautiful. Glad this one worked."><img src="my%20art/Waguri_Kaoruko_Glow_Art.jpg" alt="Kaoruko Waguri The Fragrant Flower Blooms with Dignity" loading="lazy"><div class="art-overlay"><h4>Kaoruko Waguri - The Fragrant Flower Blooms with Dignity</h4><p>2025 | Ballpoint pen + ibisPaint X | Glow</p></div></div>
+          <div class="art-masonry-item" data-title="Roronoa Zoro - One Piece" data-meta="2025 | Ballpoint pen + ibisPaint X | Glow" data-story="A present for my brother's 19th birthday"><img src="my%20art/Zoro_Glow_Art.jpg" alt="Roronoa Zoro One Piece" loading="lazy"><div class="art-overlay"><h4>Roronoa Zoro - One Piece</h4><p>2025 | Ballpoint pen + ibisPaint X | Glow</p></div></div>
+          <div class="art-masonry-item" data-title="Isagi, Rin and Kaiser - Blue Lock" data-meta="2024 | Ballpoint pen + ibisPaint X | Glow" data-story="Glow suits their aura"><img src="my%20art/Blue_Lock.jpg" alt="Isagi, Rin and Kaiser Blue Lock" loading="lazy"><div class="art-overlay"><h4>Isagi, Rin and Kaiser - Blue Lock</h4><p>2024 | Ballpoint pen + ibisPaint X | Glow</p></div></div>
+          <div class="art-masonry-item" data-title="Manjiro Sano (Mikey) - Tokyo Revengers" data-meta="2024 | Ballpoint pen + ibisPaint X | Glow" data-story="A present for my brother's 18th birthday"><img src="my%20art/Mikey_Glow_Art.jpg" alt="Manjiro Sano (Mikey) Tokyo Revengers" loading="lazy"><div class="art-overlay"><h4>Manjiro Sano (Mikey) - Tokyo Revengers</h4><p>2024 | Ballpoint pen + ibisPaint X | Glow</p></div></div>
+          <div class="art-masonry-item" data-title="Sonic, Shadow, and Silver (Team SSS) - Sonic the Hedgehog" data-meta="2024 | Ballpoint pen + ibisPaint X | Wallpaper" data-story="Team SSS wallpaper. Silver, my favorite hedgehog."><img src="my%20art/SSS_WALLPAPER.png" alt="Sonic, Shadow, and Silver (Team SSS) Sonic the Hedgehog" loading="lazy"><div class="art-overlay"><h4>Sonic, Shadow, and Silver (Team SSS) - Sonic the Hedgehog</h4><p>2024 | Ballpoint pen + ibisPaint X | Wallpaper</p></div></div>
+          <div class="art-masonry-item" data-title="Duos - Dazai and Chuuya, Wanderer and Kazuha, Isagi and Bachira" data-meta="2023 | Ballpoint pen + ibisPaint X | Glow" data-story="Me and my best friend\'s favorite characters"><img src="my%20art/Duos.jpg" alt="Duos Dazai and Chuuya, Wanderer and Kazuha, Isagi and Bachira" loading="lazy"><div class="art-overlay"><h4>Duos - Dazai and Chuuya, Wanderer and Kazuha, Isagi and Bachira</h4><p>2023 | Ballpoint pen + ibisPaint X | Glow</p></div></div>
+          <div class="art-masonry-item" data-title="Ghost Rider - Marvel" data-meta="2023 | Ballpoint pen + ibisPaint X | Glow" data-story="Flaming skull - glow was made for Rider."><img src="my%20art/Ghost_Rider_Glow_Art.jpg" alt="Ghost Rider Marvel" loading="lazy"><div class="art-overlay"><h4>Ghost Rider - Marvel</h4><p>2023 | Ballpoint pen + ibisPaint X | Glow</p></div></div>
+          <div class="art-masonry-item" data-title="Vergil - Devil May Cry" data-meta="2022 | Ballpoint pen + ibisPaint X | Glow" data-story="Chasing power to never lose again. Ranked 3rd in Art Appreciation subject in college."><img src="my%20art/Bury_the_Light_by_Juan_Rafael_Luis_San_Pedro.jpg" alt="Vergil Devil May Cry" loading="lazy"><div class="art-overlay"><h4>Vergil - Devil May Cry</h4><p>2022 | Ballpoint pen + ibisPaint X | Glow</p></div></div>
+          <div class="art-masonry-item" data-title="Edogawa Ranpo - Bungo Stray Dogs" data-meta="2022 | Ballpoint pen + ibisPaint X | Glow" data-story="My best friend\'s favorite"><img src="my%20art/Edogawa_Ranpo_Glow_Art.jpg" alt="Edogawa Ranpo Bungo Stray Dogs" loading="lazy"><div class="art-overlay"><h4>Edogawa Ranpo - Bungo Stray Dogs</h4><p>2022 | Ballpoint pen + ibisPaint X | Glow</p></div></div>
+          <div class="art-masonry-item" data-title="Generation of Miracles - Kuroko Basketball" data-meta="2022 | Ballpoint pen + ibisPaint X | Glow" data-story="First multi-character glow."><img src="my%20art/Generation_of_Miracles_Glow_Art.jpg" alt="Generation of Miracles Kuroko Basketball" loading="lazy"><div class="art-overlay"><h4>Generation of Miracles - Kuroko Basketball</h4><p>2022 | Ballpoint pen + ibisPaint X | Glow</p></div></div>
+          <div class="art-masonry-item" data-title="Spider-Man (Big Time Stealth Suit) - Marvel" data-meta="2022 | Ballpoint pen + ibisPaint X | Glow" data-story="My favorite Spider-Man suit. Fits well in my glow style."><img src="my%20art/Spider-Man_Glow_Art.jpg" alt="Spider-Man (Big Time Stealth Suit) Marvel" loading="lazy"><div class="art-overlay"><h4>Spider-Man (Big Time Stealth Suit) - Marvel</h4><p>2022 | Ballpoint pen + ibisPaint X | Glow</p></div></div>
+          <div class="art-masonry-item" data-title="Meruem - Hunter x Hunter" data-meta="2021 | Ballpoint pen + ibisPaint X | Glow" data-story="Favorite HxH character. Nailed shading."><img src="my%20art/Meruem_Glow_Art.jpg" alt="Meruem Hunter x Hunter" loading="lazy"><div class="art-overlay"><h4>Meruem - Hunter x Hunter</h4><p>2021 | Ballpoint pen + ibisPaint X | Glow</p></div></div>
+          <div class="art-masonry-item" data-title="Kugisaki Nobara - Jujutsu Kaisen" data-meta="2021 | Ballpoint pen + ibisPaint X | Glow" data-story="Second luminance piece, first female character."><img src="my%20art/Kugisaki_Nobara_Glow_Art.jpg" alt="Kugisaki Nobara Jujutsu Kaisen" loading="lazy"><div class="art-overlay"><h4>Kugisaki Nobara - Jujutsu Kaisen</h4><p>2021 | Ballpoint pen + ibisPaint X | Glow</p></div></div>
+          <div class="art-masonry-item" data-title="Kaneki Ken - Tokyo Ghoul" data-meta="2021 | Ballpoint pen + ibisPaint X | First glow" data-story="First luminance glow - brightness and airbrush."><img src="my%20art/Kaneki_Ken_Glow_Art.jpg" alt="Kaneki Ken Tokyo Ghoul" loading="lazy"><div class="art-overlay"><h4>Kaneki Ken - Tokyo Ghoul</h4><p>2021 | Ballpoint pen + ibisPaint X | First glow</p></div></div>
+          <div class="art-masonry-item" data-title="Asta - Black Clover" data-meta="2021 | Ballpoint pen + ibisPaint X | Single layer" data-story="Asta is top 3 favorite - his discipline shaped my growth."><img src="my%20art/Asta.jpg" alt="Asta Black Clover" loading="lazy"><div class="art-overlay"><h4>Asta - Black Clover</h4><p>2021 | Ballpoint pen + ibisPaint X | Single layer</p></div></div>
+          <div class="art-masonry-item" data-title="Monkey D. Luffy - One Piece" data-meta="2021 | Ballpoint pen + ibisPaint X" data-story="Revisiting a 2020 Luffy sketch."><img src="my%20art/LUFFY.jpg" alt="Monkey D. Luffy One Piece" loading="lazy"><div class="art-overlay"><h4>Monkey D. Luffy - One Piece</h4><p>2021 | Ballpoint pen + ibisPaint X</p></div></div>
+          <div class="art-masonry-item" data-title="Gon, Killua, Kurapika and Leorio - Hunter x Hunter" data-meta="2021 | Ballpoint pen + ibisPaint X" data-story="Tribute after binge-watching HxH."><img src="my%20art/Hunter_X_Hunter.jpg" alt="Gon, Killua, Kurapika and Leorio Hunter x Hunter" loading="lazy"><div class="art-overlay"><h4>Gon, Killua, Kurapika and Leorio - Hunter x Hunter</h4><p>2021 | Ballpoint pen + ibisPaint X</p></div></div>
+          <div class="art-masonry-item" data-title="Black Asta - Black Clover" data-meta="2020 | Ballpoint pen + ibisPaint X | First digital" data-story="My first digital artwork, all on one layer."><img src="my%20art/Black_Asta.jpg" alt="Black Asta Black Clover" loading="lazy"><div class="art-overlay"><h4>Black Asta - Black Clover</h4><p>2020 | Ballpoint pen + ibisPaint X | First digital</p></div></div>
+        </div>
+      </div>
+
+      <div class="container"><hr class="section-divider"></div>
+
+      <div class="container art-group">
+        <div class="art-group-header">
+          <h2 class="section-title">Inktober 2025</h2>
+          <span class="art-count">19 pieces</span>
+        </div>
+        <p class="about-section-text">Daily ink prompts — 19 days of mustache, weave, crown, and beyond. Raw, unfiltered, one prompt at a time.</p>
+        <div class="art-masonry">
+          <div class="art-masonry-item" data-title="Day 1 - Mustache" data-meta="2025 | Ink on paper" data-story="Ft. Ken from YouTube (known for his funny Clash Royale videos)."><img src="Inktober%202025/Inktober%202025%20-%20Day%201%20-%20Mustache.jpg" alt="Day 1 Mustache" loading="lazy"><div class="art-overlay"><h4>Day 1 - Mustache</h4><p>2025 | Ink on paper</p></div></div>
+          <div class="art-masonry-item" data-title="Day 2 - Weave" data-meta="2025 | Ink on paper" data-story="Ft. Arlecchino from Genshin Impact"><img src="Inktober%202025/Inktober%202025%20-%20Day%202%20-%20Weave.jpg" alt="Day 2 Weave" loading="lazy"><div class="art-overlay"><h4>Day 2 - Weave</h4><p>2025 | Ink on paper</p></div></div>
+          <div class="art-masonry-item" data-title="Day 3 - Crown" data-meta="2025 | Ink on paper" data-story="Ft. Jesus from Jojo's Bizzare Adventure Part 7: Steel Ball Run"><img src="Inktober%202025/Inktober%202025%20-%20Day%203%20-%20Crown.jpg" alt="Day 3 Crown" loading="lazy"><div class="art-overlay"><h4>Day 3 - Crown</h4><p>2025 | Ink on paper</p></div></div>
+          <div class="art-masonry-item" data-title="Day 4 - Murky" data-meta="2025 | Ink on paper" data-story="Ft. Catnap from Poppy Playtime"><img src="Inktober%202025/Inktober%202025%20-%20Day%204%20-%20Murky.jpg" alt="Day 4 Murky" loading="lazy"><div class="art-overlay"><h4>Day 4 - Murky</h4><p>2025 | Ink on paper</p></div></div>
+          <div class="art-masonry-item" data-title="Day 5 - Deer" data-meta="2025 | Ink on paper" data-story="Ft. Xeneas from Pokémon"><img src="Inktober%202025/Inktober%202025%20-%20Day%205%20-%20Deer.jpg" alt="Day 5 Deer" loading="lazy"><div class="art-overlay"><h4>Day 5 - Deer</h4><p>2025 | Ink on paper</p></div></div>
+          <div class="art-masonry-item" data-title="Day 6 - Pierce" data-meta="2025 | Ink on paper" data-story="Ft. Dabi from My Hero Academia"><img src="Inktober%202025/Inktober%202025%20-%20Day%206%20-%20Pierce.jpg" alt="Day 6 Pierce" loading="lazy"><div class="art-overlay"><h4>Day 6 - Pierce</h4><p>2025 | Ink on paper</p></div></div>
+          <div class="art-masonry-item" data-title="Day 7 - Starfish" data-meta="2025 | Ink on paper" data-story="Ft. Patrick Star from Spongebob Squarepants and Starmie from Pokémon"><img src="Inktober%202025/Inktober%202025%20-%20Day%207%20-%20Starfish.jpg" alt="Day 7 Starfish" loading="lazy"><div class="art-overlay"><h4>Day 7 - Starfish</h4><p>2025 | Ink on paper</p></div></div>
+          <div class="art-masonry-item" data-title="Day 8 - Reckless" data-meta="2025 | Ink on paper" data-story="Ft. Dead Cells"><img src="Inktober%202025/Inktober%202025%20-%20Day%208%20-%20Reckless.jpg" alt="Day 8 Reckless" loading="lazy"><div class="art-overlay"><h4>Day 8 - Reckless</h4><p>2025 | Ink on paper</p></div></div>
+          <div class="art-masonry-item" data-title="Day 9 - Heavy" data-meta="2025 | Ink on paper" data-story="Ft. Kaneki Ken from Tokyo Ghoul"><img src="Inktober%202025/Inktober%202025%20-%20Day%209%20-%20Heavy.jpg" alt="Day 9 Heavy" loading="lazy"><div class="art-overlay"><h4>Day 9 - Heavy</h4><p>2025 | Ink on paper</p></div></div>
+          <div class="art-masonry-item" data-title="Day 10 - Sweep" data-meta="2025 | Ink on paper" data-story="Ft. Mo from Wall-E"><img src="Inktober%202025/Inktober%202025%20-%20Day%2010%20-%20Sweep.jpg" alt="Day 10 Sweep" loading="lazy"><div class="art-overlay"><h4>Day 10 - Sweep</h4><p>2025 | Ink on paper</p></div></div>
+          <div class="art-masonry-item" data-title="Day 11 - Sting" data-meta="2025 | Ink on paper" data-story="Ft. Tom Cat from Tom & Jerry"><img src="Inktober%202025/Inktober%202025%20-%20Day%2011%20-%20Sting.jpg" alt="Day 11 Sting" loading="lazy"><div class="art-overlay"><h4>Day 11 - Sting</h4><p>2025 | Ink on paper</p></div></div>
+          <div class="art-masonry-item" data-title="Day 12 - Shredded" data-meta="2025 | Ink on paper" data-story="Ft. Guts (Berserker Armor) from Berserk"><img src="Inktober%202025/Inktober%202025%20-%20Day%2012%20-%20Shredded.jpg" alt="Day 12 Shredded" loading="lazy"><div class="art-overlay"><h4>Day 12 - Shredded</h4><p>2025 | Ink on paper</p></div></div>
+          <div class="art-masonry-item" data-title="Day 13 - Drink" data-meta="2025 | Ink on paper" data-story="Ft. Oda, Dazai, and Ango (A toast to the stray dogs)"><img src="Inktober%202025/Inktober%202025%20-%20Day%2013%20-%20Drink.jpg" alt="Day 13 Drink" loading="lazy"><div class="art-overlay"><h4>Day 13 - Drink</h4><p>2025 | Ink on paper</p></div></div>
+          <div class="art-masonry-item" data-title="Day 14 - Trunk" data-meta="2025 | Ink on paper" data-story="Ft. Tree Trunks from Adventure Time and Phanpy from Pokémon"><img src="Inktober%202025/Inktober%202025%20-%20Day%2014%20-%20Trunk.jpg" alt="Day 14 Trunk" loading="lazy"><div class="art-overlay"><h4>Day 14 - Trunk</h4><p>2025 | Ink on paper</p></div></div>
+          <div class="art-masonry-item" data-title="Day 15 - Ragged" data-meta="2025 | Ink on paper" data-story="Ft. Ippo Makunochi from Hajime no Ippo"><img src="Inktober%202025/Inktober%202025%20-%20Day%2015%20-%20Ragged.jpg" alt="Day 15 Ragged" loading="lazy"><div class="art-overlay"><h4>Day 15 - Ragged</h4><p>2025 | Ink on paper</p></div></div>
+          <div class="art-masonry-item" data-title="Day 16 - Blunder" data-meta="2025 | Ink on paper" data-story="Ft. Michael Kaiser from Blue Lock"><img src="Inktober%202025/Inktober%202025%20-%20Day%2016%20-%20Blunder.jpg" alt="Day 16 Blunder" loading="lazy"><div class="art-overlay"><h4>Day 16 - Blunder</h4><p>2025 | Ink on paper</p></div></div>
+          <div class="art-masonry-item" data-title="Day 17 - Ornate" data-meta="2025 | Ink on paper" data-story="Ft. The Eye of Agamotto from Marvel"><img src="Inktober%202025/Inktober%202025%20-%20Day%2017%20-%20Ornate.jpg" alt="Day 17 Ornate" loading="lazy"><div class="art-overlay"><h4>Day 17 - Ornate</h4><p>2025 | Ink on paper</p></div></div>
+          <div class="art-masonry-item" data-title="Day 18 - Deal" data-meta="2025 | Ink on paper" data-story="Ft. Madara Uchiha and Hashirama Senju from Naruto"><img src="Inktober%202025/Inktober%202025%20-%20Day%2018%20-%20Deal.jpg" alt="Day 18 Deal" loading="lazy"><div class="art-overlay"><h4>Day 18 - Deal</h4><p>2025 | Ink on paper</p></div></div>
+          <div class="art-masonry-item" data-title="Day 19 - Arctic" data-meta="2025 | Ink on paper" data-story="Ft. Skirk from Genshin Impact"><img src="Inktober%202025/Inktober%202025%20-%20Day%2019%20-%20Arctic.jpg" alt="Day 19 Arctic" loading="lazy"><div class="art-overlay"><h4>Day 19 - Arctic</h4><p>2025 | Ink on paper</p></div></div>
+        </div>
+      </div>
+
+      <div class="container"><hr class="section-divider"></div>
+
+      <div class="container art-group" id="brave-refuge">
+        <div class="art-group-header">
+          <h2 class="section-title">Brave Refuge (Game Development Project)</h2>
+          <span class="art-count">3 files</span>
+        </div>
+        <p class="about-section-text">Hand-drawn 2D animation and visual assets for an academic game development project — characters and props created in Adobe Photoshop, with a short animation showcase.</p>
+        <div class="art-video-wrap" style="margin-top: 24px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: #000;">
+          <video src="images/GameDev2025/San%20Pedro_Activity%201_Animation.mp4" controls playsinline preload="metadata" style="width: 100%; height: auto; display: block;"></video>
+        </div>
+        <div class="brave-images">
+          <div class="brave-item" data-title="Jin — Brave Refuge" data-meta="2025 | Adobe Photoshop | Character Art" data-story="Main character of Brave Refuge, hand-drawn and colored in Photoshop."><img src="images/GameDev2025/Jin%201.png" alt="Jin — Brave Refuge" loading="lazy"><div class="art-overlay"><h4>Jin — Brave Refuge</h4><p>2025 | Adobe Photoshop | Character Art</p></div></div>
+          <div class="brave-item" data-title="Yoshi — Brave Refuge" data-meta="2025 | Adobe Photoshop | Character Art" data-story="Companion character Yoshi, hand-drawn for the Brave Refuge project."><img src="images/GameDev2025/Yoshi.png" alt="Yoshi — Brave Refuge" loading="lazy"><div class="art-overlay"><h4>Yoshi — Brave Refuge</h4><p>2025 | Adobe Photoshop | Character Art</p></div></div>
+        </div>
+      </div>
+
+      <div class="container"><hr class="section-divider"></div>
+
+      <section class="section contact-cta-section">
+        <div class="container cta-container">
+          <h2 class="cta-heading">Love what you see?</h2>
+          <p class="cta-text">Fan arts and ink experiments are where I recharge. If you want a commission or just want to talk art, reach out.</p>
+          <a href="#contact" class="btn" data-nav="contact">Get in touch</a>
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        <div class="container">
+          <p class="footer-text">Thank you for taking the time to explore my art collection <span class="footer-emoji" aria-hidden="true">:)</span></p>
+        </div>
+      </footer>
     </section>
 
     <!-- ==================== CONTACT PAGE ==================== -->
@@ -386,6 +534,9 @@
           </div>
         </div>
         <h1 class="case-title">Bringing a Brand to Life: Designing the Digital Marketing Website for Integr8 Software Solutions, Inc.</h1>
+        <div class="case-visit-wrap">
+          <a href="#" class="resume-title-link case-visit-link is-pending" aria-disabled="true" title="Link coming soon">Visit Website ↗</a>
+        </div>
       </div>
 
       <div class="container case-content">
@@ -434,8 +585,8 @@
         <p class="case-text">This project taught me that modern design isn't defined by visual trends—it's defined by how clearly it communicates. Researching competitor websites showed me that successful interfaces aren't necessarily the most visually complex; they're the ones that make information easy to understand within a visitor's first few seconds on the page. Since this project covered nearly the entire marketing website, it also taught me the importance of maintaining consistency across multiple pages while designing a cohesive user experience.</p>
 
         <div class="case-image-row">
-          <div class="case-image-col"><img src="images/Integr8%20UIUX%20designer.jpg" alt="Integr8 UI/UX Designer"></div>
-          <div class="case-image-col"><img src="images/Integr8%20Commemorative%20Photo%202.jpg" alt="Integr8 Commemorative Photo"></div>
+          <div class="case-image-col"><img src="images/2026/Integr8%20UIUX%20designer.jpg" alt="Integr8 UI/UX Designer"></div>
+          <div class="case-image-col"><img src="images/2026/Integr8%20Commemorative%20Photo%202.jpg" alt="Integr8 Commemorative Photo"></div>
         </div>
 
       </div>
@@ -494,11 +645,13 @@
           </article>
         </div>
       </div>
+      <footer class="page-footer">
+        <div class="container">
+          <p class="footer-text">Thank you for taking the time to explore this project <span class="footer-emoji" aria-hidden="true">:)</span></p>
+        </div>
+      </footer>
 
-      <div class="container case-nav-bottom">
-        <a href="#home" class="btn-back" data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>Back to Home</a>
-      </div>
-    </section>
+</section>
 
     <section id="case-epeople" class="page">
       <div class="container case-header">
@@ -525,6 +678,9 @@
           </div>
         </div>
         <h1 class="case-title">Redesigning ePeople's Digital Presence to Better Reflect Their Expertise</h1>
+        <div class="case-visit-wrap">
+          <a href="https://epeople.com.ph/" target="_blank" rel="noopener noreferrer" class="resume-title-link case-visit-link">Visit Website ↗</a>
+        </div>
       </div>
       <div class="container case-content">
 
@@ -627,11 +783,13 @@
           </article>
         </div>
       </div>
+      <footer class="page-footer">
+        <div class="container">
+          <p class="footer-text">Thank you for taking the time to explore this project <span class="footer-emoji" aria-hidden="true">:)</span></p>
+        </div>
+      </footer>
 
-      <div class="container case-nav-bottom">
-        <a href="#home" class="btn-back" data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>Back to Home</a>
-      </div>
-    </section>
+</section>
 
     <section id="case-city-explorer" class="page">
       <div class="container case-header">
@@ -658,6 +816,9 @@
           </div>
         </div>
         <h1 class="case-title">Designing a Tourism Discovery Platform for an Academic Project</h1>
+        <div class="case-visit-wrap">
+          <a href="#" class="resume-title-link case-visit-link is-pending" aria-disabled="true" title="Link coming soon">Visit Website ↗</a>
+        </div>
       </div>
 
       <div class="container case-content">
@@ -743,11 +904,13 @@
           </article>
         </div>
       </div>
+      <footer class="page-footer">
+        <div class="container">
+          <p class="footer-text">Thank you for taking the time to explore this project <span class="footer-emoji" aria-hidden="true">:)</span></p>
+        </div>
+      </footer>
 
-      <div class="container case-nav-bottom">
-        <a href="#home" class="btn-back" data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>Back to Home</a>
-      </div>
-    </section>
+</section>
 
     <section id="case-nomnom" class="page">
       <div class="container case-header">
@@ -856,11 +1019,13 @@
           </article>
         </div>
       </div>
+      <footer class="page-footer">
+        <div class="container">
+          <p class="footer-text">Thank you for taking the time to explore this project <span class="footer-emoji" aria-hidden="true">:)</span></p>
+        </div>
+      </footer>
 
-      <div class="container case-nav-bottom">
-        <a href="#home" class="btn-back" data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>Back to Home</a>
-      </div>
-    </section>
+</section>
 
     <button class="back-to-top" aria-label="Back to top">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -871,9 +1036,31 @@
 
   <footer id="page-home-footer">
     <div class="container">
-      <p class="footer-text">Thank you for taking the time to explore my portfolio.</p>
+      <p class="footer-text">Thank you for taking the time to explore my portfolio <span class="footer-emoji" aria-hidden="true">:)</span></p>
     </div>
   </footer>
+
+
+
+  <div id="art-lightbox" class="art-lightbox" aria-hidden="true">
+    <button class="art-lightbox-close" aria-label="Close">×</button>
+    <div class="art-lightbox-content">
+      <div class="art-lightbox-media">
+        <button class="art-lightbox-nav art-lightbox-prev" aria-label="Previous artwork">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <img id="art-lightbox-img" src="" alt="">
+        <button class="art-lightbox-nav art-lightbox-next" aria-label="Next artwork">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+      <div class="art-lightbox-details">
+        <h3 id="art-lightbox-title"></h3>
+        <p id="art-lightbox-meta"></p>
+        <p id="art-lightbox-story"></p>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
