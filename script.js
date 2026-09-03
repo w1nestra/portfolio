@@ -49,6 +49,37 @@
     }
   }
 
+  // Salmon underline smooth slide
+  var navIndicator = document.querySelector(".nav-indicator");
+  var navLinksContainer = document.querySelector(".nav-links");
+  if (navLinksContainer && navIndicator) navLinksContainer.classList.add("has-indicator");
+  function updateNavIndicator() {
+    var active = document.querySelector(".nav-link.active");
+    var indicator = document.querySelector(".nav-indicator");
+    var container = document.querySelector(".nav-links");
+    if (!active || !indicator || !container) return;
+    // hide on mobile vertical menu
+    if (window.innerWidth <= 639) {
+      indicator.style.opacity = "0";
+      return;
+    }
+    var containerRect = container.getBoundingClientRect();
+    var activeRect = active.getBoundingClientRect();
+    var left = activeRect.left - containerRect.left;
+    indicator.style.left = left + "px";
+    indicator.style.width = activeRect.width + "px";
+    indicator.style.opacity = "1";
+  }
+  // hook into showPage
+  var _origShowForIndicator = showPage;
+  showPage = function (pageId) {
+    _origShowForIndicator(pageId);
+    // wait a frame so active class is applied and layout settled
+    requestAnimationFrame(function () {
+      updateNavIndicator();
+    });
+  };
+
   // click handlers
   navLinks.forEach(function (link) {
     link.addEventListener("click", function (e) {
@@ -58,6 +89,11 @@
       showPage(pageId);
     });
   });
+
+  window.addEventListener("resize", updateNavIndicator);
+  window.addEventListener("load", function () { setTimeout(updateNavIndicator, 120); });
+  // also update after hash navigation
+  window.addEventListener("hashchange", function () { setTimeout(updateNavIndicator, 80); });
 
   // back buttons
   document.querySelectorAll(".btn-back").forEach(function (btn) {
@@ -124,9 +160,45 @@
   handleHash();
 
   // ---------- Scroll reveal (micro-interaction) ----------
-  var revealEls = document.querySelectorAll(
-    ".project-card, .skill-group, .section-title, .cta-heading, .cta-text, .resume-entry"
-  );
+  // Fade + 20px lift when element enters viewport (opacity 0 -> 1, translateY 20px -> 0)
+  // Uses IntersectionObserver if available (smoother, GPU-friendly), falls back to scroll + getBoundingClientRect
+  var revealSelector = [
+    ".project-card",
+    ".skill-group",
+    ".section-title",
+    ".cta-heading",
+    ".cta-text",
+    ".resume-entry",
+    ".hero-kicker",
+    ".hero-heading",
+    ".page-title",
+    ".page-subtitle",
+    ".art-hint",
+    ".art-group",
+    ".art-masonry-item",
+    ".brave-item",
+    ".brave-images",
+    ".about-hero-text",
+    ".about-drag",
+    ".about-section",
+    ".skills-section",
+    ".tools-section",
+    ".contact-layout",
+    ".case-header",
+    ".case-meta-item",
+    ".case-title",
+    ".case-text",
+    ".case-section-title",
+    ".case-image-full",
+    ".case-image-col",
+    ".more-projects",
+    ".cta-container"
+  ].join(", ");
+
+  function getRevealEls() {
+    return document.querySelectorAll(revealSelector);
+  }
+  var revealEls = getRevealEls();
 
   function isInView(el) {
     var rect = el.getBoundingClientRect();
@@ -141,26 +213,81 @@
     });
   }
 
-  // add initial styles
+  // add initial styles — covers all reveal targets so every section fades smoothly
   var style = document.createElement("style");
   style.textContent =
-    ".project-card, .skill-group, .section-title, .cta-heading, .cta-text, .resume-entry { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; } .revealed { opacity: 1; transform: translateY(0); }";
+    revealSelector + " { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; will-change: opacity, transform; } " +
+    ".revealed { opacity: 1; transform: translateY(0); } " +
+    // respect reduced-motion
+    "@media (prefers-reduced-motion: reduce) { " + revealSelector + " { opacity: 1; transform: none; transition: none; } }";
   document.head.appendChild(style);
 
-  window.addEventListener("scroll", checkReveal);
-  window.addEventListener("load", function () {
-    setTimeout(checkReveal, 100);
-  });
+  // staggered delay for items in same container (e.g., project-grid, art-masonry) for smoother cascade
+  function applyStagger() {
+    document.querySelectorAll(".project-grid, .art-masonry, .tools-grid").forEach(function (grid) {
+      var kids = grid.querySelectorAll(revealSelector);
+      kids.forEach(function (el, idx) {
+        if (!el.classList.contains("revealed")) {
+          el.style.transitionDelay = (Math.min(idx * 0.07, 0.28)) + "s";
+        }
+      });
+    });
+  }
 
-  // re-check on page switch
+  var observer = null;
+  if ("IntersectionObserver" in window) {
+    observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("revealed");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    revealEls.forEach(function (el) { observer.observe(el); });
+  } else {
+    window.addEventListener("scroll", function () { applyStagger(); checkReveal(); });
+    window.addEventListener("load", function () {
+      setTimeout(function () { applyStagger(); checkReveal(); }, 100);
+    });
+  }
+
+  // re-check / re-observe on page switch (SPA navigation)
   var origShow = showPage;
   showPage = function (id) {
+    // Force instant top BEFORE and AFTER page switch — overrides html {scroll-behavior:smooth}
+    // which otherwise makes window.scrollTo smooth and new page starts at previous bottom then slides up
+    var de = document.documentElement;
+    var b = document.body;
+    var prevHtml = de.style.scrollBehavior;
+    var prevBody = b.style.scrollBehavior;
+    de.style.scrollBehavior = "auto";
+    b.style.scrollBehavior = "auto";
+    try { window.scrollTo({ top: 0, left: 0, behavior: "auto" }); } catch (e) { window.scrollTo(0, 0); }
+    de.scrollTop = 0; b.scrollTop = 0;
     origShow(id);
+    try { window.scrollTo({ top: 0, left: 0, behavior: "auto" }); } catch (e) { window.scrollTo(0, 0); }
+    de.scrollTop = 0; b.scrollTop = 0;
+    // refresh NodeList for new page + observe new elements
+    revealEls = getRevealEls();
+    if (observer) {
+      revealEls.forEach(function (el) {
+        if (!el.classList.contains("revealed")) observer.observe(el);
+      });
+    }
+    applyStagger();
     setTimeout(checkReveal, 50);
     // reset back-to-top on page switch
     backToTop.classList.remove("visible");
-    window.scrollTo(0, 0);
+    // restore smooth for in-page anchors after instant jump
+    setTimeout(function () {
+      de.style.scrollBehavior = prevHtml;
+      b.style.scrollBehavior = prevBody;
+    }, 60);
   };
+  // initial stagger
+  applyStagger();
+  setTimeout(checkReveal, 80);
 
   // ---------- Theme toggle (light/dark) ----------
   var themeToggle = document.getElementById("theme-toggle");
@@ -274,7 +401,7 @@
         "images/Integr8%20Graphic%20Design/Valentines'%20Day%20Movie%20Voucher.jpg"
       ];
     }
-    if (title === "Gr8 ERP Software") {
+    if (title === "Gr8 ERP Software Graphics") {
       return [
         "images/Integr8%20Graphic%20Design/Gr8%20ERP%20for%20Cooperative2.jpg",
         "images/Integr8%20Graphic%20Design/Gr8%20ERP%20Software.jpg"
@@ -449,107 +576,109 @@
     }
   });
 
-  // ---------- About draggable slider (free glide, no snap - smooth aggressive) ----------
+  // ---------- Draggable sliders (About + Sketches — free glide, no snap) ----------
   (function () {
-    var viewport = document.querySelector("#about-drag .about-drag-viewport");
-    if (!viewport) return;
-    var isDown = false;
-    var startX = 0;
-    var scrollLeft = 0;
-    var moved = false;
-    var velocity = 0;
-    var lastX = 0;
-    var lastTime = 0;
-    var rafId = null;
-    var friction = 0.92;
-    var minVelocity = 0.15;
+    var viewports = document.querySelectorAll(".about-drag .about-drag-viewport");
+    if (!viewports.length) return;
+    viewports.forEach(function (viewport) {
+      var isDown = false;
+      var startX = 0;
+      var scrollLeft = 0;
+      var moved = false;
+      var velocity = 0;
+      var lastX = 0;
+      var lastTime = 0;
+      var rafId = null;
+      var friction = 0.92;
+      var minVelocity = 0.15;
 
-    function cancelMomentum() {
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = null;
-    }
-
-    function glide() {
-      velocity *= friction;
-      if (Math.abs(velocity) < minVelocity) {
+      function cancelMomentum() {
+        if (rafId) cancelAnimationFrame(rafId);
         rafId = null;
-        return;
       }
-      var next = viewport.scrollLeft - velocity * 14;
-      var max = viewport.scrollWidth - viewport.clientWidth;
-      if (next < 0) { next = 0; velocity = 0; }
-      else if (next > max) { next = max; velocity = 0; }
-      viewport.scrollLeft = next;
-      rafId = requestAnimationFrame(glide);
-    }
 
-    viewport.addEventListener("mousedown", function (e) {
-      isDown = true;
-      moved = false;
-      cancelMomentum();
-      viewport.classList.add("active");
-      startX = e.pageX - viewport.offsetLeft;
-      scrollLeft = viewport.scrollLeft;
-      lastX = e.pageX;
-      lastTime = Date.now();
-      velocity = 0;
+      function glide() {
+        velocity *= friction;
+        if (Math.abs(velocity) < minVelocity) {
+          rafId = null;
+          return;
+        }
+        var next = viewport.scrollLeft - velocity * 14;
+        var max = viewport.scrollWidth - viewport.clientWidth;
+        if (next < 0) { next = 0; velocity = 0; }
+        else if (next > max) { next = max; velocity = 0; }
+        viewport.scrollLeft = next;
+        rafId = requestAnimationFrame(glide);
+      }
+
+      viewport.addEventListener("mousedown", function (e) {
+        isDown = true;
+        moved = false;
+        cancelMomentum();
+        viewport.classList.add("active");
+        startX = e.pageX - viewport.offsetLeft;
+        scrollLeft = viewport.scrollLeft;
+        lastX = e.pageX;
+        lastTime = Date.now();
+        velocity = 0;
+      });
+
+      viewport.addEventListener("mouseleave", function () {
+        if (!isDown) return;
+        isDown = false;
+        viewport.classList.remove("active");
+        if (Math.abs(velocity) > minVelocity) rafId = requestAnimationFrame(glide);
+      });
+
+      viewport.addEventListener("mouseup", function () {
+        if (!isDown && !moved) return;
+        isDown = false;
+        viewport.classList.remove("active");
+        if (Math.abs(velocity) > minVelocity) rafId = requestAnimationFrame(glide);
+        setTimeout(function () { moved = false; }, 80);
+      });
+
+      viewport.addEventListener("mousemove", function (e) {
+        if (!isDown) return;
+        e.preventDefault();
+        var x = e.pageX - viewport.offsetLeft;
+        var walk = (x - startX) * 1.08;
+        if (Math.abs(walk) > 3) moved = true;
+        viewport.scrollLeft = scrollLeft - walk;
+        var now = Date.now();
+        var dt = now - lastTime || 16;
+        var dx = e.pageX - lastX;
+        velocity = dx / dt;
+        lastX = e.pageX;
+        lastTime = now;
+      });
+
+      viewport.addEventListener("touchstart", function (e) {
+        cancelMomentum();
+        startX = e.touches[0].pageX - viewport.offsetLeft;
+        scrollLeft = viewport.scrollLeft;
+        lastX = e.touches[0].pageX;
+        lastTime = Date.now();
+        velocity = 0;
+      }, { passive: true });
+
+      viewport.addEventListener("touchmove", function (e) {
+        var x = e.touches[0].pageX - viewport.offsetLeft;
+        var walk = (x - startX) * 1.08;
+        viewport.scrollLeft = scrollLeft - walk;
+        var now = Date.now();
+        var dt = now - lastTime || 16;
+        velocity = (e.touches[0].pageX - lastX) / dt;
+        lastX = e.touches[0].pageX;
+        lastTime = now;
+      }, { passive: true });
+
+      viewport.addEventListener("touchend", function () {
+        if (Math.abs(velocity) > minVelocity) rafId = requestAnimationFrame(glide);
+      });
+
+      viewport.addEventListener("dragstart", function (e) { e.preventDefault(); });
+      viewport.addEventListener("click", function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
     });
-
-    viewport.addEventListener("mouseleave", function () {
-      if (!isDown) return;
-      isDown = false;
-      viewport.classList.remove("active");
-      if (Math.abs(velocity) > minVelocity) rafId = requestAnimationFrame(glide);
-    });
-
-    viewport.addEventListener("mouseup", function () {
-      if (!isDown && !moved) return;
-      isDown = false;
-      viewport.classList.remove("active");
-      if (Math.abs(velocity) > minVelocity) rafId = requestAnimationFrame(glide);
-      setTimeout(function () { moved = false; }, 80);
-    });
-
-    viewport.addEventListener("mousemove", function (e) {
-      if (!isDown) return;
-      e.preventDefault();
-      var x = e.pageX - viewport.offsetLeft;
-      var walk = (x - startX) * 1.08;
-      if (Math.abs(walk) > 3) moved = true;
-      viewport.scrollLeft = scrollLeft - walk;
-      var now = Date.now();
-      var dt = now - lastTime || 16;
-      var dx = e.pageX - lastX;
-      velocity = dx / dt;
-      lastX = e.pageX;
-      lastTime = now;
-    });
-
-    viewport.addEventListener("touchstart", function (e) {
-      cancelMomentum();
-      startX = e.touches[0].pageX - viewport.offsetLeft;
-      scrollLeft = viewport.scrollLeft;
-      lastX = e.touches[0].pageX;
-      lastTime = Date.now();
-      velocity = 0;
-    }, { passive: true });
-
-    viewport.addEventListener("touchmove", function (e) {
-      var x = e.touches[0].pageX - viewport.offsetLeft;
-      var walk = (x - startX) * 1.08;
-      viewport.scrollLeft = scrollLeft - walk;
-      var now = Date.now();
-      var dt = now - lastTime || 16;
-      velocity = (e.touches[0].pageX - lastX) / dt;
-      lastX = e.touches[0].pageX;
-      lastTime = now;
-    }, { passive: true });
-
-    viewport.addEventListener("touchend", function () {
-      if (Math.abs(velocity) > minVelocity) rafId = requestAnimationFrame(glide);
-    });
-
-    viewport.addEventListener("dragstart", function (e) { e.preventDefault(); });
-    viewport.addEventListener("click", function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
   })();
 })();
