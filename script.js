@@ -121,9 +121,11 @@
   // logo no longer navigates (Home link now handles it)
 
   // mobile toggle
-  navToggle.addEventListener("click", function () {
-    nav.classList.toggle("open");
-  });
+  if (navToggle && nav) {
+    navToggle.addEventListener("click", function () {
+      nav.classList.toggle("open");
+    });
+  }
 
   // ---------- Hash-based routing ----------
   function handleHash() {
@@ -277,8 +279,10 @@
     }
     applyStagger();
     setTimeout(checkReveal, 50);
-    // reset back-to-top on page switch
-    backToTop.classList.remove("visible");
+    // reset back-to-top on page switch (guarded)
+    if (typeof backToTop !== 'undefined' && backToTop) backToTop.classList.remove("visible");
+    // keep nav indicator in sync after SPA switch
+    if (typeof updateNavIndicator === 'function') requestAnimationFrame(function(){ updateNavIndicator(); });
     // restore smooth for in-page anchors after instant jump
     setTimeout(function () {
       de.style.scrollBehavior = prevHtml;
@@ -288,6 +292,8 @@
   // initial stagger
   applyStagger();
   setTimeout(checkReveal, 80);
+  // ensure nav indicator positioned for initial page (About/Home)
+  setTimeout(function(){ if (typeof updateNavIndicator === 'function') updateNavIndicator(); }, 150);
 
   // ---------- Theme toggle (light/dark) ----------
   var themeToggle = document.getElementById("theme-toggle");
