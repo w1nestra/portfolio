@@ -54,10 +54,15 @@
   var navLinksContainer = document.querySelector(".nav-links");
   if (navLinksContainer && navIndicator) navLinksContainer.classList.add("has-indicator");
   function updateNavIndicator() {
-    var active = document.querySelector(".nav-link.active");
     var indicator = document.querySelector(".nav-indicator");
     var container = document.querySelector(".nav-links");
-    if (!active || !indicator || !container) return;
+    if (!indicator || !container) return;
+    // Home (Juan Rafael Luis) has no nav-link active — no underline, and no line under logo
+    var active = document.querySelector(".nav-link.active");
+    if (!active) {
+      indicator.style.opacity = "0";
+      return;
+    }
     // hide on mobile vertical menu
     if (window.innerWidth <= 639) {
       indicator.style.opacity = "0";
@@ -211,6 +216,13 @@
     revealEls.forEach(function (el) {
       if (isInView(el)) {
         el.classList.add("revealed");
+      } else {
+        // remove so it can fade again next time user scrolls down
+        // keep above-the-fold elements revealed after initial load? only hide if below viewport
+        var rect = el.getBoundingClientRect();
+        if (rect.top > window.innerHeight) {
+          el.classList.remove("revealed");
+        }
       }
     });
   }
@@ -242,7 +254,12 @@
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
           entry.target.classList.add("revealed");
-          observer.unobserve(entry.target);
+        } else {
+          // keep fade for every scroll down — hide again only if still below viewport
+          // so elements already scrolled past above stay visible
+          if (entry.boundingClientRect.top > window.innerHeight) {
+            entry.target.classList.remove("revealed");
+          }
         }
       });
     }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
@@ -270,11 +287,19 @@
     origShow(id);
     try { window.scrollTo({ top: 0, left: 0, behavior: "auto" }); } catch (e) { window.scrollTo(0, 0); }
     de.scrollTop = 0; b.scrollTop = 0;
+    // reset reveal for new page so every scroll down re-triggers fade (smoothness + consistency)
+    var targetForReveal = document.getElementById(id);
+    if (targetForReveal) {
+      targetForReveal.querySelectorAll(revealSelector).forEach(function (el) {
+        el.classList.remove("revealed");
+        el.style.transitionDelay = "";
+      });
+    }
     // refresh NodeList for new page + observe new elements
     revealEls = getRevealEls();
     if (observer) {
       revealEls.forEach(function (el) {
-        if (!el.classList.contains("revealed")) observer.observe(el);
+        observer.observe(el);
       });
     }
     applyStagger();
@@ -399,12 +424,6 @@
         "images/Integr8%20Graphic%20Design/Team%20Building%202026%20-%201.jpg",
         "images/Integr8%20Graphic%20Design/Team%20Building%202026%20-%202.jpg",
         "images/Integr8%20Graphic%20Design/Team%20Building%202026%20-%203.jpg"
-      ];
-    }
-    if (title === "Valentine's Day Vouchers") {
-      return [
-        "images/Integr8%20Graphic%20Design/Valentines'%20Day%20Jollibee%20Voucher.jpg",
-        "images/Integr8%20Graphic%20Design/Valentines'%20Day%20Movie%20Voucher.jpg"
       ];
     }
     if (title === "Gr8 ERP Software Graphics") {

@@ -274,7 +274,27 @@ html[data-theme="dark"] .bottom-theme-icon--moon {
   font-size: 1.125rem;
   letter-spacing: -0.02em;
   color: var(--text);
-  cursor: default;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s ease, text-shadow 0.3s ease;
+}
+
+.nav-logo:hover {
+  color: var(--text);
+  text-shadow: 0 0 5px rgba(255, 138, 101, 0.16), 0 0 10px rgba(255, 138, 101, 0.07);
+}
+
+html[data-theme="dark"] .nav-logo:hover {
+  text-shadow: 0 0 6px rgba(255, 138, 101, 0.32), 0 0 12px rgba(255, 138, 101, 0.16);
+}
+
+.nav-logo.active {
+  color: var(--text);
+  text-shadow: 0 0 5px rgba(255, 138, 101, 0.16), 0 0 10px rgba(255, 138, 101, 0.07);
+}
+
+html[data-theme="dark"] .nav-logo.active {
+  text-shadow: 0 0 6px rgba(255, 138, 101, 0.32), 0 0 12px rgba(255, 138, 101, 0.16);
 }
 
 .nav-links {
@@ -916,8 +936,8 @@ html[data-theme="dark"] .about-drag-item img {
 .section-divider {
   border: none;
   border-top: 1px solid #e7e5e4;
-  margin: 0 -24px;
-  width: calc(100% + 48px);
+  margin: 0;
+  width: 100%;
 }
 
  /* ===== ABOUT PAGE SECTIONS ===== */
@@ -926,12 +946,53 @@ html[data-theme="dark"] .about-drag-item img {
 }
 
 .about-section + .about-section {
-  border-top: 1px solid #e7e5e4;
+  border-top: none;
+  position: relative;
+}
+
+.about-section + .about-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 24px;
+  right: 24px;
+  height: 1px;
+  background: #e7e5e4;
 }
 
 .skills-section {
   padding: 48px 0;
-  border-top: 1px solid #e7e5e4;
+  border-top: none;
+  position: relative;
+}
+
+.skills-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 24px;
+  right: 24px;
+  height: 1px;
+  background: #e7e5e4;
+}
+
+#page-about .about-section + .about-section::before,
+#page-about .skills-section::before {
+  left: 32px;
+  right: 32px;
+}
+
+@media (min-width: 768px) {
+  .about-section + .about-section::before,
+  .skills-section::before {
+    left: 48px;
+    right: 48px;
+  }
+}
+
+html[data-theme="dark"] .about-section + .about-section::before,
+html[data-theme="dark"] .skills-section::before {
+  background: var(--border);
 }
 
 .tools-section {
