@@ -274,6 +274,18 @@
   // re-check / re-observe on page switch (SPA navigation)
   var origShow = showPage;
   showPage = function (id) {
+    // pause any playing videos to prevent audio leak when switching pages (Art brave video, NomNom prototype, lightbox video)
+    try {
+      document.querySelectorAll("video").forEach(function(v){ try{ v.pause(); }catch(e){} });
+      // close lightbox if open (also pauses its video)
+      if (typeof artLightbox !== "undefined" && artLightbox && artLightbox.classList.contains("open") && typeof closeArtLightbox === "function") {
+        closeArtLightbox();
+      }
+      // reset brave overlay so play button shows again
+      var bv = document.getElementById("brave-video");
+      var bo = document.getElementById("brave-video-overlay");
+      if (bv && bo) { bo.classList.remove("hidden"); bv.removeAttribute("controls"); try{ bv.currentTime = 0; }catch(e){} }
+    } catch(e){}
     // Force instant top BEFORE and AFTER page switch — overrides html {scroll-behavior:smooth}
     // which otherwise makes window.scrollTo smooth and new page starts at previous bottom then slides up
     var de = document.documentElement;
@@ -306,6 +318,8 @@
     setTimeout(checkReveal, 50);
     // reset back-to-top on page switch (guarded)
     if (typeof backToTop !== 'undefined' && backToTop) backToTop.classList.remove("visible");
+    if (typeof backToHome !== 'undefined' && backToHome) backToHome.classList.remove("visible");
+    if (typeof window._updateBackToHomeVisibility === 'function') setTimeout(window._updateBackToHomeVisibility, 50);
     // keep nav indicator in sync after SPA switch
     if (typeof updateNavIndicator === 'function') requestAnimationFrame(function(){ updateNavIndicator(); });
     // restore smooth for in-page anchors after instant jump
@@ -385,26 +399,77 @@
   var siteHeader = document.querySelector(".site-header");
   if (siteHeader) siteHeader.classList.remove("hidden");
 
-  // ---------- Back to top ----------
+  // ---------- Back to top — with circular progress ----------
   var backToTop = document.querySelector(".back-to-top");
+  var backToTopProgress = document.querySelector(".back-to-top-progress-bar");
 
   if (backToTop) {
-    window.addEventListener("scroll", function () {
+    function updateBackToTopProgress() {
+      if (backToTopProgress) {
+        var scrollTop = window.scrollY || document.documentElement.scrollTop;
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        var progress = docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0;
+        var circumference = 125.664;
+        var offset = circumference * (1 - progress);
+        backToTopProgress.style.strokeDashoffset = offset;
+      }
       if (window.scrollY > 400) {
         backToTop.classList.add("visible");
       } else {
         backToTop.classList.remove("visible");
       }
-    });
-
+    }
+    window.addEventListener("scroll", updateBackToTopProgress, { passive: true });
+    window.addEventListener("resize", updateBackToTopProgress);
+    updateBackToTopProgress();
     backToTop.addEventListener("click", function () {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   }
 
+  // ---------- Back to home — center bottom, case pages only, aligned with back-to-top ----------
+  var backToHome = document.querySelector(".back-to-home");
+  if (backToHome) {
+    function updateBackToHomeVisibility() {
+      var hash = window.location.hash.replace("#", "");
+      var isCase = hash.indexOf("case-") === 0;
+      var activeCase = document.querySelector(".page.active[id^='case-']");
+      if (isCase || activeCase) {
+        if (window.scrollY > 300) {
+          backToHome.classList.add("visible");
+        } else {
+          backToHome.classList.remove("visible");
+        }
+      } else {
+        backToHome.classList.remove("visible");
+      }
+    }
+    window.addEventListener("scroll", updateBackToHomeVisibility, { passive: true });
+    window.addEventListener("hashchange", updateBackToHomeVisibility);
+    // also update after SPA navigation (showPage wrapper will call it)
+    backToHome.addEventListener("click", function () {
+      // use SPA navigation to home
+      if (typeof showPage === "function") {
+        try { showPage("page-home"); } catch(e) { window.location.hash = ""; }
+      } else {
+        window.location.hash = "";
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      // ensure hash cleared
+      history.pushState(null, "", window.location.pathname + window.location.search);
+    });
+    // initial check
+    setTimeout(updateBackToHomeVisibility, 100);
+    // hook into showPage if already wrapped
+    var _origShowForHome = window.showPage || showPage;
+    // will be handled in the showPage wrapper below via global update
+    window._updateBackToHomeVisibility = updateBackToHomeVisibility;
+  }
+
   // ---------- Art lightbox (Option 1: hover overlay + detail) + prev/next ----------
   var artLightbox = document.getElementById("art-lightbox");
   var artLightboxImg = document.getElementById("art-lightbox-img");
+  var artLightboxVideo = document.getElementById("art-lightbox-video");
   var artLightboxTitle = document.getElementById("art-lightbox-title");
   var artLightboxMeta = document.getElementById("art-lightbox-meta");
   var artLightboxStory = document.getElementById("art-lightbox-story");
@@ -417,19 +482,45 @@
   var currentArtIndex = -1;
   var isHomeGalleryMode = false;
 
+  function isVideoSrc(src) { return /\.mp4(\?|$)/i.test(src); }
+  function showLightboxMedia(src, alt) {
+    if (isVideoSrc(src)) {
+      if (artLightboxImg) { artLightboxImg.style.display = "none"; artLightboxImg.removeAttribute("src"); }
+      if (artLightboxVideo) {
+        artLightboxVideo.src = src;
+        artLightboxVideo.style.display = "block";
+        artLightboxVideo.autoplay = true;
+        artLightboxVideo.loop = false;
+        artLightboxVideo.muted = false;
+        artLightboxVideo.volume = 1;
+        artLightboxVideo.style.transition = "none";
+        try { artLightboxVideo.load(); artLightboxVideo.play().catch(function(){}); } catch(e){}
+      }
+    } else {
+      if (artLightboxVideo) { try { artLightboxVideo.pause(); } catch(e){} artLightboxVideo.style.display = "none"; artLightboxVideo.removeAttribute("src"); try { artLightboxVideo.load(); } catch(e){} }
+      if (artLightboxImg) { artLightboxImg.src = src; artLightboxImg.alt = alt || ""; artLightboxImg.style.display = "block"; }
+    }
+  }
+
   function getHomeGalleryForItem(item) {
     var title = item.getAttribute("data-title") || "";
     if (title === "Team Building Tarpaulin") {
       return [
-        "images/Integr8%20Graphic%20Design/Team%20Building%202026%20-%201.jpg",
-        "images/Integr8%20Graphic%20Design/Team%20Building%202026%20-%202.jpg",
-        "images/Integr8%20Graphic%20Design/Team%20Building%202026%20-%203.jpg"
+        "images/Integr8/Integr8%20Graphic%20Design/Team%20Building%202026%20-%201.jpg",
+        "images/Integr8/Integr8%20Graphic%20Design/Team%20Building%202026%20-%202.jpg",
+        "images/Integr8/Integr8%20Graphic%20Design/Team%20Building%202026%20-%203.jpg"
       ];
     }
     if (title === "Gr8 ERP Software Graphics") {
       return [
-        "images/Integr8%20Graphic%20Design/Gr8%20ERP%20for%20Cooperative2.jpg",
-        "images/Integr8%20Graphic%20Design/Gr8%20ERP%20Software.jpg"
+        "images/Integr8/Integr8%20Graphic%20Design/Gr8%20ERP%20for%20Cooperative2.jpg",
+        "images/Integr8/Integr8%20Graphic%20Design/Gr8%20ERP%20Software.jpg"
+      ];
+    }
+    if (title === "NomNom") {
+      return [
+        "images/NomNom/NomNom%20Figma%20Prototype.mp4",
+        "images/NomNom/NomNom%20Collage.png"
       ];
     }
     return null;
@@ -462,24 +553,22 @@
   function renderArtAt(index) {
     if (isHomeGalleryMode) {
       var src = currentGroupItems[index];
-      if (!src || !artLightboxImg) return;
+      if (!src || (!artLightboxImg && !artLightboxVideo)) return;
       currentArtIndex = index;
-      artLightboxImg.src = src;
-      artLightboxImg.alt = "";
+      showLightboxMedia(src, "");
       return;
     }
     var data = getArtData(index);
-    if (!data || !artLightboxImg) return;
+    if (!data || (!artLightboxImg && !artLightboxVideo)) return;
     currentArtIndex = index;
-    artLightboxImg.src = data.src;
-    artLightboxImg.alt = data.alt;
+    showLightboxMedia(data.src, data.alt);
     if (artLightboxTitle) artLightboxTitle.textContent = data.title;
     if (artLightboxMeta) artLightboxMeta.textContent = data.meta;
     if (artLightboxStory) artLightboxStory.textContent = data.story;
   }
 
   function openArtLightbox(src, alt, title, meta, story, triggerItem) {
-    if (!artLightbox || !artLightboxImg) return;
+    if (!artLightbox || (!artLightboxImg && !artLightboxVideo)) return;
     if (triggerItem) {
       currentGroupItems = getCurrentGroupForItem(triggerItem);
     } else {
@@ -499,8 +588,7 @@
     }
     // fallback if not found
     if (currentArtIndex === -1) currentArtIndex = 0;
-    artLightboxImg.src = src;
-    artLightboxImg.alt = alt || "";
+    showLightboxMedia(src, alt || "");
     if (artLightboxTitle) artLightboxTitle.textContent = title || alt || "";
     if (artLightboxMeta) artLightboxMeta.textContent = meta || "";
     if (artLightboxStory) artLightboxStory.textContent = story || "";
@@ -510,14 +598,13 @@
   }
 
   function openHomeGalleryLightbox(triggerItem) {
-    if (!artLightbox || !artLightboxImg || !triggerItem) return;
+    if (!artLightbox || (!artLightboxImg && !artLightboxVideo) || !triggerItem) return;
     var gallery = getHomeGalleryForItem(triggerItem);
     if (!gallery || !gallery.length) return;
     isHomeGalleryMode = true;
     currentGroupItems = gallery;
     currentArtIndex = 0;
-    artLightboxImg.src = gallery[0];
-    artLightboxImg.alt = triggerItem.getAttribute("data-title") || "";
+    showLightboxMedia(gallery[0], triggerItem.getAttribute("data-title") || "");
     // hide captions for Home gallery
     var details = artLightbox.querySelector(".art-lightbox-details");
     if (details) details.style.display = "none";
@@ -527,10 +614,11 @@
   }
 
   function closeArtLightbox() {
-    if (!artLightbox || !artLightboxImg) return;
+    if (!artLightbox || (!artLightboxImg && !artLightboxVideo)) return;
     artLightbox.classList.remove("open");
     artLightbox.setAttribute("aria-hidden", "true");
-    artLightboxImg.src = "";
+    if (artLightboxImg) { artLightboxImg.style.display = "none"; artLightboxImg.removeAttribute("src"); }
+    if (artLightboxVideo) { try { artLightboxVideo.pause(); } catch(e){} artLightboxVideo.style.display = "none"; artLightboxVideo.removeAttribute("src"); try { artLightboxVideo.load(); } catch(e){} }
     document.body.style.overflow = "";
     currentArtIndex = -1;
     currentGroupItems = [];
@@ -601,9 +689,9 @@
     }
   });
 
-  // ---------- Draggable sliders (About + Sketches — free glide, no snap) ----------
+  // ---------- Draggable sliders (About + Sketches + View other projects — free glide, no snap) ----------
   (function () {
-    var viewports = document.querySelectorAll(".about-drag .about-drag-viewport");
+    var viewports = document.querySelectorAll(".about-drag .about-drag-viewport, .more-projects-grid");
     if (!viewports.length) return;
     viewports.forEach(function (viewport) {
       var isDown = false;
@@ -705,5 +793,36 @@
       viewport.addEventListener("dragstart", function (e) { e.preventDefault(); });
       viewport.addEventListener("click", function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
     });
+  })();
+
+  // ---------- Brave Refuge video blur overlay with play button — no audio fade ----------
+  (function () {
+    var braveVideo = document.getElementById("brave-video");
+    var braveOverlay = document.getElementById("brave-video-overlay");
+    if (!braveVideo || !braveOverlay) return;
+    // ensure no CSS fade on volume and immediate audio
+    braveVideo.style.transition = "none";
+    braveVideo.volume = 1;
+    braveVideo.muted = false;
+    function playBrave() {
+      braveOverlay.classList.add("hidden");
+      braveVideo.setAttribute("controls", "");
+      braveVideo.volume = 1;
+      braveVideo.muted = false;
+      braveVideo.style.transition = "none";
+      // cancel any WebAudio fade by resetting volume immediately
+      try { braveVideo.currentTime = 0; } catch(e){}
+      braveVideo.play().catch(function(){});
+    }
+    function showOverlay() {
+      braveOverlay.classList.remove("hidden");
+      braveVideo.removeAttribute("controls");
+      try { braveVideo.pause(); braveVideo.currentTime = 0; } catch(e){}
+    }
+    braveOverlay.addEventListener("click", playBrave);
+    var btn = braveOverlay.querySelector(".art-video-play-btn");
+    if (btn) btn.addEventListener("click", function(e){ e.stopPropagation(); playBrave(); });
+    braveVideo.addEventListener("ended", showOverlay);
+    // if user pauses manually, keep overlay hidden until ended
   })();
 })();
