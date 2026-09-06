@@ -139,18 +139,38 @@
 
   // logo no longer navigates (Home link now handles it)
 
-  // mobile toggle
+  // mobile toggle + re-layout (hamburger left, badge center, theme right)
   if (navToggle && nav) {
     navToggle.addEventListener("click", function () {
-      nav.classList.toggle("open");
+      var isOpen = nav.classList.toggle("open");
+      try { navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false"); } catch(e){}
     });
   }
+  // mobile nav layout: move theme toggle to be direct child of nav on mobile for correct absolute positioning
+  (function () {
+    var navActions = document.querySelector(".nav-actions");
+    var themeToggleEl = document.getElementById("theme-toggle");
+    var navEl = document.querySelector(".nav");
+    if (!navActions || !themeToggleEl || !navEl) return;
+    function applyMobileNavLayout() {
+      if (window.innerWidth <= 639) {
+        if (themeToggleEl.parentElement !== navEl) navEl.appendChild(themeToggleEl);
+      } else {
+        if (themeToggleEl.parentElement === navEl) navActions.appendChild(themeToggleEl);
+      }
+    }
+    applyMobileNavLayout();
+    window.addEventListener("resize", applyMobileNavLayout);
+    window.addEventListener("load", applyMobileNavLayout);
+  })();
 
-  // ---------- Available for Work tooltip — auto-dismiss after 1.5s on click/tap ----------
+  // ---------- Available for Work tooltip — auto-dismiss after 1s on click/tap ----------
+  // + mobile pressed state revert after 1s without extra tap
   (function () {
     var badge = document.querySelector(".nav-badge");
     if (!badge) return;
     var hideTimer = null;
+    var pressTimer = null;
     function showBadgeTooltipTemp() {
       badge.classList.add("is-tooltip-visible");
       if (hideTimer) clearTimeout(hideTimer);
@@ -158,15 +178,33 @@
         badge.classList.remove("is-tooltip-visible");
         try { badge.blur(); } catch (e) {}
         hideTimer = null;
-      }, 1500);
+      }, 1000);
+    }
+    function showBadgePressedTemp() {
+      if (window.innerWidth > 639) return;
+      badge.classList.add("is-pressed");
+      if (pressTimer) clearTimeout(pressTimer);
+      pressTimer = setTimeout(function () {
+        badge.classList.remove("is-pressed");
+        try { badge.blur(); } catch (e) {}
+        pressTimer = null;
+      }, 1000);
     }
     badge.addEventListener("click", function () {
       showBadgeTooltipTemp();
+      showBadgePressedTemp();
     });
     // also handle keyboard activation
     badge.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" || e.key === " ") showBadgeTooltipTemp();
+      if (e.key === "Enter" || e.key === " ") {
+        showBadgeTooltipTemp();
+        showBadgePressedTemp();
+      }
     });
+    // touch fallback for mobile
+    badge.addEventListener("touchend", function () {
+      showBadgePressedTemp();
+    }, { passive: true });
   })();
 
   // ---------- Hash-based routing ----------
@@ -373,7 +411,8 @@
 
   // ---------- Theme toggle (light/dark) ----------
   var themeToggle = document.getElementById("theme-toggle");
-  var artHintToggle = document.getElementById("art-hint-pill") || document.querySelector(".art-hint-toggle") || document.querySelector(".art-hint");
+  var artHintDarkWord = document.getElementById("art-hint-dark-toggle") || document.querySelector(".art-hint-dark-word");
+  var artHintToggle = document.getElementById("art-hint-pill") || document.querySelector(".art-hint-toggle");
   var htmlEl = document.documentElement;
 
   function applyTheme(theme) {
@@ -405,7 +444,17 @@
       pulseArtMasonry();
     });
   }
-  if (artHintToggle) {
+  // new underlined "dark" word (synced with nav toggle)
+  if (artHintDarkWord) {
+    artHintDarkWord.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleTheme();
+      pulseArtMasonry();
+    });
+  }
+  // legacy fallback (old button)
+  if (artHintToggle && artHintToggle !== artHintDarkWord) {
     artHintToggle.addEventListener("click", function () {
       var art = document.getElementById("page-art");
       if (art && art.classList.contains("active")) {
@@ -880,5 +929,32 @@
     if (btn) btn.addEventListener("click", function(e){ e.stopPropagation(); playBrave(); });
     braveVideo.addEventListener("ended", showOverlay);
     // if user pauses manually, keep overlay hidden until ended
+  })();
+
+  // ---------- Landscape-only fill-container for sliders ----------
+  (function () {
+    function markLandscape(img) {
+      try {
+        if (img.naturalWidth && img.naturalHeight) {
+          if (img.naturalWidth > img.naturalHeight) {
+            img.classList.add("is-landscape");
+          } else {
+            img.classList.remove("is-landscape");
+          }
+        }
+      } catch(e){}
+    }
+    function scan() {
+      document.querySelectorAll(".about-drag-item img, #sketches-drag .about-drag-item img").forEach(function(img){
+        if (img.complete) markLandscape(img);
+        else img.addEventListener("load", function(){ markLandscape(img); }, { once: true });
+      });
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", scan);
+    } else {
+      scan();
+    }
+    window.addEventListener("load", scan);
   })();
 })();

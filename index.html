@@ -15,7 +15,10 @@
 
     <header class="site-header">
     <nav class="nav">
-      <a href="#home" data-nav="home" class="nav-logo">Juan Rafael Luis</a>
+      <a href="#home" data-nav="home" class="nav-logo" aria-label="Home">
+        <span class="nav-logo-text">Juan Rafael Luis</span>
+        <svg class="nav-logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+      </a>
       <ul class="nav-links">
         <li><a href="#home" data-nav="home" class="nav-link">Home</a></li>
         <li><a href="#art" data-nav="art" class="nav-link">Art</a></li>
@@ -24,17 +27,21 @@
         <span class="nav-indicator" aria-hidden="true"></span>
       </ul>
       <div class="nav-actions">
-        <a href="#contact" data-nav="contact" class="nav-badge" aria-label="Available for Work — Yes, I'm Actually Available">
+        <button type="button" class="nav-badge" aria-label="Available for Work — Yes, I'm Actually Available">
           <span class="badge-dot"></span>
           <span class="badge-text">Available for Work</span>
           <span class="nav-badge-tooltip">Yes, I'm Actually Available</span>
-        </a>
+        </button>
         <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
           <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
           <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
       </div>
-      <button class="nav-toggle" aria-label="Menu">?</button>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <span class="nav-toggle-line"></span>
+        <span class="nav-toggle-line"></span>
+        <span class="nav-toggle-line"></span>
+      </button>
     </nav>
   </header>
 
@@ -192,7 +199,7 @@
 
       <section class="section contact-cta-section">
         <div class="container cta-container">
-          <h2 class="cta-heading">Let's build something meaningful.</h2>
+          <h2 class="cta-heading">Let's build something meaningful</h2>
           <p class="cta-text">Whether you're looking for a designer, have a project in mind, or simply want to connect, I'd love to hear from you.</p>
           <a href="#contact" class="btn" data-nav="contact">Get in touch</a>
         </div>
@@ -223,7 +230,7 @@
             <div class="about-drag-item"><img src="images/Personal/2026/Integr8%20UIUX%20designer.jpg" alt="Integr8 UI/UX Designer" draggable="false"><span class="about-drag-caption">Designing Integr8's Marketing Website —2026</span></div>
             <div class="about-drag-item"><img src="images/Personal/2025/ThesisDefended5.jpg" alt="Thesis Defended 5" draggable="false"><span class="about-drag-caption">Capstone Research Project Defended — Library 360, 2025</span></div>
             <div class="about-drag-item"><img src="images/Personal/2025/ThesisDefended9.jpg" alt="Thesis Defended 9" draggable="false"><span class="about-drag-caption">Capstone Project Showcase — FEU Cavite, 2025</span></div>
-            <div class="about-drag-item"><img src="images/Personal/2025/LSEG2.jpeg" alt="LSEG 2023" draggable="false"><span class="about-drag-caption">LSEG Roadshow — 2025</span></div>
+            <div class="about-drag-item"><img src="images/Personal/2025/LSEG2.jpeg" alt="LSEG 2023" draggable="false"><span class="about-drag-caption">LSEG Roadshow at FEU Manila — 2025</span></div>
             <div class="about-drag-item"><img src="images/Personal/2023/metrogate2023(2).jpg" alt="Metrogate 2023" draggable="false"><span class="about-drag-caption">Metrogate Silang — 2023</span></div>
           </div>
         </div>
@@ -385,7 +392,7 @@
 
       <section class="section contact-cta-section">
         <div class="container cta-container">
-          <h2 class="cta-heading">Let's get to know each other.</h2>
+          <h2 class="cta-heading">Let's get to know each other</h2>
           <p class="cta-text">Thanks for taking the time to learn more about me. If you'd like to chat about design, opportunities, or ideas, I'd love to hear from you.</p>
           <a href="#contact" class="btn" data-nav="contact">Get in touch</a>
         </div>
@@ -394,7 +401,7 @@
       <footer class="page-footer">
   <div class="container footer-container footer-container--center">
     <p class="footer-text">Thank you for taking the time to learn more about me <span class="footer-emoji" aria-hidden="true">:)</span></p>
-    <p class="footer-text footer-copyright">Juan Rafael Luis &copy; 2026. All Rights Reserved.</p>
+    <p class="footer-text footer-copyright">Designed by Juan Rafael Luis &copy; 2026.<br class="copyright-break"> All Rights Reserved.</p>
   </div>
       </footer>
     </section>
@@ -403,8 +410,8 @@
     <section id="page-art" class="page">
       <div class="container page-header">
         <h1 class="page-title">Art Gallery</h1>
-        <p class="page-subtitle">A collection of fan arts and Inktober experiments — characters that stuck with me, rendered in glow and ink.</p>
-        <p class="art-hint">These glow arts hit way harder in the dark <button class="art-hint-toggle" id="art-hint-toggle" type="button" aria-label="Toggle dark mode"><span class="art-hint-icon" aria-hidden="true"><svg class="art-hint-icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg><svg class="art-hint-icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span></button></p>
+        <p class="page-subtitle">A collection of fan arts and Inktober experiments featuring characters that stuck with me, rendered in glow and ink.</p>
+        <p class="art-hint">These glow arts hit way harder in the <button class="art-hint-dark-word" id="art-hint-dark-toggle" type="button" aria-label="Toggle dark mode">dark</button>.</p>
       </div>
 
       <div class="container art-group">
@@ -482,11 +489,11 @@
       <div class="container about-drag" id="sketches-drag">
         <div class="about-drag-viewport">
           <div class="about-drag-track">
-            <div class="about-drag-item" data-title="Michael Jackson" data-meta="2026 | Pencil on paper" data-story="Study of Michael Jackson through pencil and ink."><img src="sketches/Michael%20Jackson.jpg" alt="Michael Jackson" draggable="false"><div class="art-overlay"><h4>Michael Jackson</h4><p>2026</p></div></div>
-            <div class="about-drag-item" data-title="Neuschwanstein Castle" data-meta="2025 | Pencil on paper" data-story="Landscape study of Neuschwanstein Castle."><img src="sketches/Scenery.jpg" alt="Neuschwanstein Castle" draggable="false"><div class="art-overlay"><h4>Neuschwanstein Castle</h4><p>2025</p></div></div>
-            <div class="about-drag-item" data-title="Spider-Man" data-meta="2025 | Pencil on paper" data-story="Dynamic pose study of Spider-Man."><img src="sketches/Spider-Man.jpg" alt="Spider-Man" draggable="false"><div class="art-overlay"><h4>Spider-Man</h4><p>2025</p></div></div>
-            <div class="about-drag-item" data-title="TikTok Challenge" data-meta="2026 | Pencil on paper" data-story="TikTok challenge composition study."><img src="sketches/TikTok%20Challenge.jpg" alt="TikTok Challenge" draggable="false"><div class="art-overlay"><h4>TikTok Challenge</h4><p>2026</p></div></div>
-            <div class="about-drag-item" data-title="Yabuki Joe" data-meta="2026 | Pencil on paper" data-story="Character study of Yabuki Joe from Ashita no Joe."><img src="sketches/Yabuki%20Joe.jpg" alt="Yabuki Joe" draggable="false"><div class="art-overlay"><h4>Yabuki Joe</h4><p>2026</p></div></div>
+            <div class="about-drag-item" data-title="Michael Jackson" data-meta="2026 | Pencil on paper" data-story="Study of Michael Jackson through pencil and ink."><img src="sketches/Michael%20Jackson.jpg" alt="Michael Jackson" draggable="false"></div>
+            <div class="about-drag-item" data-title="TikTok Challenge" data-meta="2026 | Pencil on paper" data-story="TikTok challenge composition study."><img src="sketches/TikTok%20Challenge.jpg" alt="TikTok Challenge" draggable="false"></div>
+            <div class="about-drag-item" data-title="Yabuki Joe" data-meta="2026 | Pencil on paper" data-story="Character study of Yabuki Joe from Ashita no Joe."><img src="sketches/Yabuki%20Joe.jpg" alt="Yabuki Joe" draggable="false"></div>
+            <div class="about-drag-item" data-title="Neuschwanstein Castle" data-meta="2025 | Pencil on paper" data-story="Landscape study of Neuschwanstein Castle."><img src="sketches/Scenery.jpg" alt="Neuschwanstein Castle" draggable="false"></div>
+            <div class="about-drag-item" data-title="Spider-Man" data-meta="2025 | Pencil on paper" data-story="Dynamic pose study of Spider-Man."><img src="sketches/Spider-Man.jpg" alt="Spider-Man" draggable="false"></div>
           </div>
         </div>
       </div>
@@ -526,7 +533,7 @@
       <footer class="page-footer">
   <div class="container footer-container footer-container--center">
     <p class="footer-text">Thank you for taking the time to explore my art collection <span class="footer-emoji" aria-hidden="true">:)</span></p>
-    <p class="footer-text footer-copyright">Juan Rafael Luis &copy; 2026. All Rights Reserved.</p>
+    <p class="footer-text footer-copyright">Designed by Juan Rafael Luis &copy; 2026.<br class="copyright-break"> All Rights Reserved.</p>
   </div>
       </footer>
     </section>
@@ -583,6 +590,12 @@
           </div>
         </div>
       </div>
+      <footer class="page-footer">
+  <div class="container footer-container footer-container--center">
+    <p class="footer-text">Thank you very much for your time <span class="footer-emoji" aria-hidden="true">:)</span></p>
+    <p class="footer-text footer-copyright">Designed by Juan Rafael Luis &copy; 2026.<br class="copyright-break"> All Rights Reserved.</p>
+  </div>
+      </footer>
     </section>
 
     <!-- ==================== CASE STUDY PAGES ==================== -->
@@ -751,7 +764,7 @@
       <footer class="page-footer">
   <div class="container footer-container footer-container--center">
     <p class="footer-text">Thank you for taking the time to explore this project <span class="footer-emoji" aria-hidden="true">:)</span></p>
-    <p class="footer-text footer-copyright">Juan Rafael Luis &copy; 2026. All Rights Reserved.</p>
+    <p class="footer-text footer-copyright">Designed by Juan Rafael Luis &copy; 2026.<br class="copyright-break"> All Rights Reserved.</p>
   </div>
       </footer>
 
@@ -920,7 +933,7 @@
       <footer class="page-footer">
   <div class="container footer-container footer-container--center">
     <p class="footer-text">Thank you for taking the time to explore this project <span class="footer-emoji" aria-hidden="true">:)</span></p>
-    <p class="footer-text footer-copyright">Juan Rafael Luis &copy; 2026. All Rights Reserved.</p>
+    <p class="footer-text footer-copyright">Designed by Juan Rafael Luis &copy; 2026.<br class="copyright-break"> All Rights Reserved.</p>
   </div>
       </footer>
 
@@ -1067,7 +1080,7 @@
       <footer class="page-footer">
   <div class="container footer-container footer-container--center">
     <p class="footer-text">Thank you for taking the time to explore this project <span class="footer-emoji" aria-hidden="true">:)</span></p>
-    <p class="footer-text footer-copyright">Juan Rafael Luis &copy; 2026. All Rights Reserved.</p>
+    <p class="footer-text footer-copyright">Designed by Juan Rafael Luis &copy; 2026.<br class="copyright-break"> All Rights Reserved.</p>
   </div>
       </footer>
 
@@ -1217,7 +1230,7 @@
       <footer class="page-footer">
   <div class="container footer-container footer-container--center">
     <p class="footer-text">Thank you for taking the time to explore this project <span class="footer-emoji" aria-hidden="true">:)</span></p>
-    <p class="footer-text footer-copyright">Juan Rafael Luis &copy; 2026. All Rights Reserved.</p>
+    <p class="footer-text footer-copyright">Designed by Juan Rafael Luis &copy; 2026.<br class="copyright-break"> All Rights Reserved.</p>
   </div>
       </footer>
 
@@ -1333,7 +1346,7 @@
       <footer class="page-footer">
   <div class="container footer-container footer-container--center">
     <p class="footer-text">Thank you for taking the time to explore this project <span class="footer-emoji" aria-hidden="true">:)</span></p>
-    <p class="footer-text footer-copyright">Juan Rafael Luis &copy; 2026. All Rights Reserved.</p>
+    <p class="footer-text footer-copyright">Designed by Juan Rafael Luis &copy; 2026.<br class="copyright-break"> All Rights Reserved.</p>
   </div>
       </footer>
 
@@ -1349,18 +1362,19 @@
         <polyline points="18 15 12 9 6 15" />
       </svg>
     </button>
-    <button class="back-to-home" aria-label="Back to home">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+    <button class="back-to-home" aria-label="Back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M19 12H5"></path>
+        <path d="M12 19l-7-7 7-7"></path>
       </svg>
+      <span>Back</span>
     </button>
   </main>
 
   <footer id="page-home-footer">
   <div class="container footer-container footer-container--center">
     <p class="footer-text">Thank you for taking the time to explore my portfolio <span class="footer-emoji" aria-hidden="true">:)</span></p>
-    <p class="footer-text footer-copyright">Juan Rafael Luis &copy; 2026. All Rights Reserved.</p>
+    <p class="footer-text footer-copyright">Designed by Juan Rafael Luis &copy; 2026.<br class="copyright-break"> All Rights Reserved.</p>
   </div>
   </footer>
 
