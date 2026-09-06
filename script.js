@@ -29,13 +29,27 @@
       }
     }
 
-    // update active nav link
+    // update active nav link (ensure Home gets salmon underline + color)
     navLinks.forEach(function (link) {
       link.classList.remove("active");
     });
-    var activeLink = document.querySelector('[data-nav="' + pageId.replace("page-", "") + '"]');
-    if (activeLink) {
-      activeLink.classList.add("active");
+    var activeNav = pageId.replace("page-", "");
+    var activeLinks = document.querySelectorAll('[data-nav="' + activeNav + '"]');
+    activeLinks.forEach(function(el){
+      // Only nav-links get the underline/color, logo keeps no glow
+      if (el.classList.contains("nav-link")) {
+        el.classList.add("active");
+      } else if (el.classList.contains("nav-logo")) {
+        // logo no glow, but we still mark active for consistency (no visual)
+        el.classList.add("active");
+      } else {
+        el.classList.add("active");
+      }
+    });
+    // Fallback: ensure at least the nav-link Home is active on page-home
+    if (activeNav === "home") {
+      var homeNavLink = document.querySelector('.nav-links [data-nav="home"]');
+      if (homeNavLink) homeNavLink.classList.add("active");
     }
 
     // close mobile nav
@@ -131,6 +145,29 @@
       nav.classList.toggle("open");
     });
   }
+
+  // ---------- Available for Work tooltip — auto-dismiss after 1.5s on click/tap ----------
+  (function () {
+    var badge = document.querySelector(".nav-badge");
+    if (!badge) return;
+    var hideTimer = null;
+    function showBadgeTooltipTemp() {
+      badge.classList.add("is-tooltip-visible");
+      if (hideTimer) clearTimeout(hideTimer);
+      hideTimer = setTimeout(function () {
+        badge.classList.remove("is-tooltip-visible");
+        try { badge.blur(); } catch (e) {}
+        hideTimer = null;
+      }, 1500);
+    }
+    badge.addEventListener("click", function () {
+      showBadgeTooltipTemp();
+    });
+    // also handle keyboard activation
+    badge.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") showBadgeTooltipTemp();
+    });
+  })();
 
   // ---------- Hash-based routing ----------
   function handleHash() {
@@ -476,7 +513,7 @@
   var artLightboxClose = document.querySelector(".art-lightbox-close");
   var artLightboxPrev = document.querySelector(".art-lightbox-prev");
   var artLightboxNext = document.querySelector(".art-lightbox-next");
-  var artItems = document.querySelectorAll(".art-masonry-item, .brave-item");
+  var artItems = document.querySelectorAll(".art-masonry-item, .brave-item, #sketches-drag .about-drag-item");
   var homeGraphicsItems = document.querySelectorAll(".home-graphics-item");
   var currentGroupItems = [];
   var currentArtIndex = -1;
@@ -502,6 +539,12 @@
     }
   }
 
+  function updateLightboxNav() {
+    var show = currentGroupItems && currentGroupItems.length > 1;
+    if (artLightboxPrev) artLightboxPrev.style.display = show ? "flex" : "none";
+    if (artLightboxNext) artLightboxNext.style.display = show ? "flex" : "none";
+  }
+
   function getHomeGalleryForItem(item) {
     var title = item.getAttribute("data-title") || "";
     if (title === "Team Building Tarpaulin") {
@@ -523,10 +566,18 @@
         "images/NomNom/NomNom%20Collage.png"
       ];
     }
+    if (title === "Scoops") {
+      return [
+        "images/Scoops/Scoops%20Figma%20Prototype.mp4"
+      ];
+    }
     return null;
   }
 
   function getCurrentGroupForItem(item) {
+    if (item.closest && item.closest("#sketches-drag")) {
+      return document.querySelectorAll("#sketches-drag .about-drag-item");
+    }
     var group = item.closest ? item.closest(".art-group") : null;
     if (group) {
       var brave = group.querySelectorAll(".brave-item");
@@ -589,6 +640,7 @@
     // fallback if not found
     if (currentArtIndex === -1) currentArtIndex = 0;
     showLightboxMedia(src, alt || "");
+    updateLightboxNav();
     if (artLightboxTitle) artLightboxTitle.textContent = title || alt || "";
     if (artLightboxMeta) artLightboxMeta.textContent = meta || "";
     if (artLightboxStory) artLightboxStory.textContent = story || "";
@@ -605,6 +657,7 @@
     currentGroupItems = gallery;
     currentArtIndex = 0;
     showLightboxMedia(gallery[0], triggerItem.getAttribute("data-title") || "");
+    updateLightboxNav();
     // hide captions for Home gallery
     var details = artLightbox.querySelector(".art-lightbox-details");
     if (details) details.style.display = "none";
@@ -625,6 +678,9 @@
     isHomeGalleryMode = false;
     var details = artLightbox.querySelector(".art-lightbox-details");
     if (details) details.style.display = "";
+    // reset nav visibility for next open
+    if (artLightboxPrev) artLightboxPrev.style.display = "flex";
+    if (artLightboxNext) artLightboxNext.style.display = "flex";
   }
 
   function showPrevArt(e) {
@@ -652,7 +708,7 @@
       openHomeGalleryLightbox(homeItem);
       return;
     }
-    var item = target.closest ? target.closest(".art-masonry-item, .brave-item") : null;
+    var item = target.closest ? target.closest(".art-masonry-item, .brave-item, #sketches-drag .about-drag-item") : null;
     if (item) {
       var img = item.querySelector("img");
       if (!img) return;
